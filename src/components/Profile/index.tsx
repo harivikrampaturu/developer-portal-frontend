@@ -13,9 +13,10 @@ import {
 } from '@mui/material';
 import { selectUser } from '@/store/auth/selectors';
 import { logout } from '@/store/auth/thunks';
+import { persistor, AppDispatch } from '@/store';
 
 export const Profile = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const user = useSelector(selectUser);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -27,8 +28,20 @@ export const Profile = () => {
     setAnchorEl(null);
   };
   const handleLogout = async () => {
-    await dispatch(logout());
-    handleMenuClose();
+    try {
+
+      // Dispatch logout after purge is complete
+      dispatch(logout());
+      // Clear browser storage on logout
+      localStorage.clear();
+      sessionStorage.clear();
+      // Purge redux-persist storage
+      await persistor.purge();
+
+      handleMenuClose();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   console.log('user ==>', user);

@@ -16,7 +16,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: {firstName: 'User', lastName: 'User', email: 'user@user.com', _id: '123'},
+  user: {firstName: 'Customer', lastName: 'User', email: 'customer@meeamitech.com', _id: '123'},
   token: null,
   loading: false,
   error: null,

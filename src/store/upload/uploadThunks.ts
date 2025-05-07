@@ -32,7 +32,6 @@ export const fetchUploads = createAsyncThunk(
     'upload/uploadFile',
     async (file: File, { rejectWithValue, dispatch, getState }) => {
       try {
-        debugger;
         const state = getState() as RootState;
         const selectedConfig = selectUploadConfig(state);
         const formData = new FormData();
@@ -43,7 +42,6 @@ export const fetchUploads = createAsyncThunk(
         // Add logging to debug the FormData content
         console.log('File being uploaded:', file);
         console.log('Config:', config);
-        debugger;
         for (const pair of Array.from(formData.entries())) {
           console.log(pair[0], pair[1]);
         }

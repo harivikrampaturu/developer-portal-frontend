@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { selectToken } from '@/store/auth';
+import { selectEmail, selectToken } from '@/store/auth';
 import { useEffect, useState } from 'react';
 import SideNavbar from '@/components/SideNavbar/SideNavbar';
 import { styled } from '@mui/material/styles';
@@ -29,6 +29,7 @@ const MainContent = styled('main')<{ sidebarOpen: boolean }>(({ theme, sidebarOp
 export default function LayoutAuthWrapper({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const token = useSelector(selectToken);
+  
   const [isLoading, setIsLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 

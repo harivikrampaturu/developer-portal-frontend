@@ -18,12 +18,14 @@ import {
 import { ROUTES } from '@/constants/routes';
 import { LogoContainer } from './styled';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import { selectEmail } from '@/store/auth';
 
-const navigationItems = [
+const defaultNavItems = [
   { text: 'Home', icon: <HomeIcon />, href: ROUTES.DASHBOARD },
   { text: 'Files', icon: <FileIcon />, href: ROUTES.FILES },
   { text: 'API Keys', icon: <SettingsIcon />, href: ROUTES.API_KEYS },
-  {text: 'Recordings', icon: <FileIcon />, href: ROUTES.RECORDING},
+  { text: 'Recordings', icon: <FileIcon />, href: ROUTES.RECORDING },
 ];
 
 interface SideNavbarProps {
@@ -33,6 +35,15 @@ interface SideNavbarProps {
 
 const SideNavbar: React.FC<SideNavbarProps> = ({ isOpen, onToggle }) => {
   const pathname = usePathname();
+  const email = useSelector(selectEmail);
+
+  let navigationItems = defaultNavItems;
+
+  if (email === 'user@meeamitech.com' || email === 'user@user.com' || email === 'customer@meeamitech.com') {
+    navigationItems = defaultNavItems.filter(item => item.text === 'Recordings')
+
+    console.log(navigationItems);
+  }
 
   return (
     <NavWrapper isOpen={isOpen}>
