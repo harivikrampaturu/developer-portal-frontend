@@ -89,7 +89,7 @@ const AudioTable: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Date (UST)</TableCell>
+              <TableCell>Date (UTC)</TableCell>
               <TableCell>Filename</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
