@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { RootState } from '@/store';
+import config from '@/config';
 
 const AudioTable: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,22 +30,22 @@ const AudioTable: React.FC = () => {
   const handleDownload = async (filePath: string) => {
     try {
       const response = await fetch(
-        `http://localhost:8500/accent/v1/download-signed-url?file=${encodeURIComponent(filePath)}`,
+        `${config.api.baseUrl}/accent/v1/download-signed-url?file=${encodeURIComponent(filePath)}`,
         {
           method: 'GET',
           credentials: 'include',
         }
       );
-  
+
       if (!response.ok) {
         throw new Error('Failed to fetch the signed URL');
       }
-  
+
       const { signedUrl } = await response.json();
-  
+
       const fileResponse = await fetch(signedUrl);
       const blob = await fileResponse.blob();
-  
+
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
@@ -57,7 +58,7 @@ const AudioTable: React.FC = () => {
       console.error('Error downloading file:', error);
     }
   };
-  
+
 
   const processFilePath = (filePath: string) => {
     const parts = filePath.split('/');
