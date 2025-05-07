@@ -1,0 +1,324 @@
+{
+	"info": {
+		"_postman_id": "40e5bf56-ac2c-4920-a23c-36081e10059c",
+		"name": "Developer Portal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "19597356"
+	},
+	"item": [
+		{
+			"name": "create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"test\",\r\n    \"lastName\": \"sample\",\r\n    \"email\": \"sample@meeamitech.com\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8501/users"
+			},
+			"response": []
+		},
+		{
+			"name": "upload file",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2EzNTE2YWNjM2FjYTE0NDAyMTc1OGIiLCJ0ZWFtSWQiOiI2N2EyZWExZDgyOGM5MDk4MTM0ZTdiOTIiLCJpYXQiOjE3Mzg4MjUyNTUsImV4cCI6MTczODkxMTY1NX0.h_hQGiOLXJOZmvXhBxmzdHYoUFajpxPx790y10RFB6w",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/User.DESKTOP-3301C3E/Downloads/birds-singing-audio-tune-165801.mp3"
+						}
+					]
+				},
+				"url": "localhost:8502/uploads"
+			},
+			"response": []
+		},
+		{
+			"name": "Uploads",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2EzNTE2YWNjM2FjYTE0NDAyMTc1OGIiLCJ0ZWFtSWQiOiI2N2EyZWExZDgyOGM5MDk4MTM0ZTdiOTIiLCJpYXQiOjE3Mzg4MzQzNTEsImV4cCI6MTczODkyMDc1MX0.Yi-Yevz7-FAB95_l6EZvEU8NoJvLb8UNxMFM4fe4DMk",
+						"type": "text"
+					}
+				],
+				"url": "localhost:8502/uploads"
+			},
+			"response": []
+		},
+		{
+			"name": "Upload",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2EzNTE2YWNjM2FjYTE0NDAyMTc1OGIiLCJ0ZWFtSWQiOiI2N2EyZWExZDgyOGM5MDk4MTM0ZTdiOTIiLCJpYXQiOjE3Mzg4MjUyNTUsImV4cCI6MTczODkxMTY1NX0.h_hQGiOLXJOZmvXhBxmzdHYoUFajpxPx790y10RFB6w",
+						"type": "text"
+					}
+				],
+				"url": "localhost:8502/uploads/67a33071a17d7e6128858617"
+			},
+			"response": []
+		},
+		{
+			"name": "Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2EzNTE2YWNjM2FjYTE0NDAyMTc1OGIiLCJ0ZWFtSWQiOiI2N2EyZWExZDgyOGM5MDk4MTM0ZTdiOTIiLCJpYXQiOjE3Mzg3NTY0NzQsImV4cCI6MTczODg0Mjg3NH0.VyuJkLh0iXVIV_EApyChVV2VvEosgx7jmST4JuF5-xI",
+						"type": "text"
+					}
+				],
+				"url": "localhost:8501/users"
+			},
+			"response": []
+		},
+		{
+			"name": "Api keys",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "459c4c3d-359d-4588-a85f-35f7a9828b98",
+						"type": "text"
+					}
+				],
+				"url": "localhost:8501/apikeys"
+			},
+			"response": []
+		},
+		{
+			"name": "Api key",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "0872ef51-628a-4e60-8619-fab747f24410",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Ramesh\",\r\n    \"isPublic\": true,\r\n    \"expiresAt\":\"2025-02-06T12:36:34.673Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8503/apikeys"
+			},
+			"response": []
+		},
+		{
+			"name": "welcome",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2EzNTE2YWNjM2FjYTE0NDAyMTc1OGIiLCJ0ZWFtSWQiOiI2N2EyZWExZDgyOGM5MDk4MTM0ZTdiOTIiLCJpYXQiOjE3Mzg4MzQzNTEsImV4cCI6MTczODkyMDc1MX0.Yi-Yevz7-FAB95_l6EZvEU8NoJvLb8UNxMFM4fe4DMk",
+						"type": "text"
+					}
+				],
+				"url": "localhost:8501"
+			},
+			"response": []
+		},
+		{
+			"name": "User By ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2EzNTE2YWNjM2FjYTE0NDAyMTc1OGIiLCJ0ZWFtSWQiOiI2N2EyZWExZDgyOGM5MDk4MTM0ZTdiOTIiLCJpYXQiOjE3Mzg4MzQzNTEsImV4cCI6MTczODkyMDc1MX0.Yi-Yevz7-FAB95_l6EZvEU8NoJvLb8UNxMFM4fe4DMk",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8501/users/67a3516acc3aca144021758b",
+					"host": [
+						"localhost"
+					],
+					"port": "8501",
+					"path": [
+						"users",
+						"67a3516acc3aca144021758b"
+					],
+					"query": [
+						{
+							"key": "user",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ExZGM4NWMxMjFhZGQ3MTJmODBkYjgiLCJlbWFpbCI6InN1bWFudGguamFsYWR1cmdhbUBtZWVhbWl0ZWNoLmNvbSIsImlhdCI6MTczODY2ODkyNSwiZXhwIjoxNzM4NzU1MzI1fQ.OehkybEBOsinrTTuy_MMqirGXRsWU-aT2ivr-zs3M0o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Jaladurgam\",\r\n    \"lastName\": \"Sumalatha\",\r\n    \"email\": \"sumalatha.jaladurga@meeamitech.com\",\r\n    \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8501/users/67a1df0a00d52e6d23f1c56e",
+					"host": [
+						"localhost"
+					],
+					"port": "8501",
+					"path": [
+						"users",
+						"67a1df0a00d52e6d23f1c56e"
+					],
+					"query": [
+						{
+							"key": "user",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ExZGM4NWMxMjFhZGQ3MTJmODBkYjgiLCJlbWFpbCI6InN1bWFudGguamFsYWR1cmdhbUBtZWVhbWl0ZWNoLmNvbSIsImlhdCI6MTczODY2ODkyNSwiZXhwIjoxNzM4NzU1MzI1fQ.OehkybEBOsinrTTuy_MMqirGXRsWU-aT2ivr-zs3M0o",
+						"type": "text"
+					}
+				],
+				"url": "localhost:8501/users/67a1df0a00d52e6d23f1c56e"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"sample@meeamitech.com\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8501/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Api key By ID",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2E0YTQyM2E1NDA2ZjQ0OTcwMWRlOGQiLCJ0ZWFtSWQiOiI2N2EyZWExZDgyOGM5MDk4MTM0ZTdiOTIiLCJpYXQiOjE3Mzg4NDMxODQsImV4cCI6MTczODkyOTU4NH0.lFL_t0TU6_ronB1P4XgI29MPp2EE7XMGAChZLClPQ5s",
+						"type": "text"
+					}
+				],
+				"url": "localhost:8501/apikeys/67a4a46a36d9c1f9bcd1e8e7"
+			},
+			"response": []
+		},
+		{
+			"name": "Api Key",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2E0YTQyM2E1NDA2ZjQ0OTcwMWRlOGQiLCJ0ZWFtSWQiOiI2N2EyZWExZDgyOGM5MDk4MTM0ZTdiOTIiLCJpYXQiOjE3Mzg4NDMxODQsImV4cCI6MTczODkyOTU4NH0.lFL_t0TU6_ronB1P4XgI29MPp2EE7XMGAChZLClPQ5s",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Sumanth\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8501/apikeys/67a4a46a36d9c1f9bcd1e8e7"
+			},
+			"response": []
+		},
+		{
+			"name": "Api key",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2EzNTE2YWNjM2FjYTE0NDAyMTc1OGIiLCJ0ZWFtSWQiOiI2N2EyZWExZDgyOGM5MDk4MTM0ZTdiOTIiLCJpYXQiOjE3Mzg4MjUyNTUsImV4cCI6MTczODkxMTY1NX0.h_hQGiOLXJOZmvXhBxmzdHYoUFajpxPx790y10RFB6w",
+						"type": "text"
+					}
+				],
+				"url": "localhost:8503/apikeys/67a44abfd911f88b5fca2982"
+			},
+			"response": []
+		}
+	]
+}
