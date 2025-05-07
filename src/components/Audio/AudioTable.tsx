@@ -15,7 +15,6 @@ import {
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { RootState } from '@/store';
-import config from '@/config';
 
 const AudioTable: React.FC = () => {
   const dispatch = useDispatch();
@@ -30,7 +29,7 @@ const AudioTable: React.FC = () => {
   const handleDownload = async (filePath: string) => {
     try {
       const response = await fetch(
-        `${config.api.baseUrl}/accent/v1/download-signed-url?file=${encodeURIComponent(filePath)}`,
+        `http://localhost:8500/accent/v1/download-signed-url?file=${encodeURIComponent(filePath)}`,
         {
           method: 'GET',
           credentials: 'include',
@@ -59,12 +58,13 @@ const AudioTable: React.FC = () => {
     }
   };
 
-
   const processFilePath = (filePath: string) => {
     const parts = filePath.split('/');
-    const date = parts[2].replace(/-/g, ':').replace(/:/, ' '); // Extract and format the date
-    const filename = parts[parts.length - 1]; // Extract the filename
-    return { date, filename };
+    const rawDate = parts[2]; // e.g., "2025-05-07_12-34-56"
+    const formattedDate = rawDate.replace('_', 'T').replace(/-/g, ':').replace(':', '-'); // to ISO format
+    const displayDate = new Date(formattedDate);
+    const filename = parts[parts.length - 1];
+    return { date: displayDate, filename };
   };
 
   if (isLoading) {
@@ -75,7 +75,13 @@ const AudioTable: React.FC = () => {
     return <div>Error: {error}</div>;
   }
 
-  const paginatedData = audioFiles.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const sortedAudioFiles = [...audioFiles].sort((a, b) => {
+    const dateA = processFilePath(a).date.getTime();
+    const dateB = processFilePath(b).date.getTime();
+    return dateB - dateA;
+  });
+
+  const paginatedData = sortedAudioFiles.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
     <Paper>
@@ -83,7 +89,7 @@ const AudioTable: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Date</TableCell>
+              <TableCell>Date (UST)</TableCell>
               <TableCell>Filename</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
@@ -91,9 +97,13 @@ const AudioTable: React.FC = () => {
           <TableBody>
             {paginatedData.map((filePath) => {
               const { date, filename } = processFilePath(filePath);
+              const formattedDate = new Intl.DateTimeFormat('en-US', {
+                dateStyle: 'medium',
+                timeStyle: 'short',
+              }).format(date);
               return (
                 <TableRow key={filePath}>
-                  <TableCell>{date}</TableCell>
+                  <TableCell>{formattedDate}</TableCell>
                   <TableCell>{filename}</TableCell>
                   <TableCell>
                     <IconButton onClick={() => handleDownload(filePath)} color="primary">
@@ -108,7 +118,7 @@ const AudioTable: React.FC = () => {
       </TableContainer>
       <TablePagination
         component="div"
-        count={audioFiles.length}
+        count={sortedAudioFiles.length}
         page={page}
         onPageChange={(event, newPage) => setPage(newPage)}
         rowsPerPage={rowsPerPage}
