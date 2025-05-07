@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { RootState } from '@/store';
+import config from '@/config';
 
 const AudioTable: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const AudioTable: React.FC = () => {
   const handleDownload = async (filePath: string) => {
     try {
       const response = await fetch(
-        `http://localhost:8500/accent/v1/download-signed-url?file=${encodeURIComponent(filePath)}`,
+        `${config.api.baseUrl}/accent/v1/download-signed-url?file=${encodeURIComponent(filePath)}`,
         {
           method: 'GET',
           credentials: 'include',
