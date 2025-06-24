@@ -48,7 +48,7 @@ export const register = createAsyncThunk(
   'auth/register',
   async (userData: RegisterData, { rejectWithValue }) => {
     try {
-      const response = await api.post('/auth/users', userData,  {
+      const response = await api.post('/authentication/users', userData,  {
         withCredentials: true,
       });
       return response.data;
