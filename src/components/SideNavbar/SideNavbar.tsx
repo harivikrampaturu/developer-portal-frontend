@@ -116,7 +116,7 @@ const SideNavbar: React.FC<SideNavbarProps> = ({ isOpen }) => {
       <FooterContainer sx={ {mr: 2, mb: 2, px: 0, py: '8px'}}>
       
       <Profile />
-        {/* <IconButton
+        <IconButton
           onClick={() => dispatch(toggleThemeMode())}
           sx={{
             color: isDarkMode ? '#fff' : theme.palette.text.primary,
@@ -129,7 +129,7 @@ const SideNavbar: React.FC<SideNavbarProps> = ({ isOpen }) => {
           }}
         >
           {isDarkMode ? <Brightness7 /> : <Brightness4 />}
-        </IconButton> */}
+        </IconButton>
       </FooterContainer>
       </div>
 

@@ -1,4 +1,4 @@
-import { Button, Box, Typography, Stack, Chip, IconButton } from "@mui/material";
+import { Box, Typography, Stack, Chip, IconButton } from "@mui/material";
 import { APIKey } from "@/store/apiKeys/apiKeysSlice";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteAPIKey } from "@/store/apiKeys/apiKeysThunks";
 import { AppDispatch } from "@/store";
-import { useTheme } from "@mui/material/styles";
 
 interface APIKeyCardProps {
   apiKey: APIKey;
@@ -15,11 +14,11 @@ interface APIKeyCardProps {
 export function APIKeyCard({ apiKey }: APIKeyCardProps) {
   const dispatch = useDispatch<AppDispatch>();
   const [copied, setCopied] = useState(false);
-  const theme = useTheme();
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(apiKey.key);
     setCopied(true);
+    console.log(copied)
     setTimeout(() => setCopied(false), 2000);
   };
 

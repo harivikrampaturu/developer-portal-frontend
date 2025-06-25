@@ -22,6 +22,7 @@ export function APIKeyTableRow({ apiKey }: APIKeyTableRowProps) {
     setTooltipText('Copied');
     setTimeout(() => setTooltipText('Copy'), 1500);
     setTimeout(() => setCopied(false), 2000);
+    console.log(copied);
   };
 
   const handleDelete = () => {
