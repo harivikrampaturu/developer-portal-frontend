@@ -1,10 +1,8 @@
 import { Metadata } from 'next';
 
-interface Props {
-  params: { slug: string };
-}
+type Params = { params: { slug: string } };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = params;
   return {
     title: `${slug} Documentation`,
@@ -12,7 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function DocPage({ params }: Props) {
+export default function DocPage({ params }: Params) {
   const { slug } = params;
 
   return (
