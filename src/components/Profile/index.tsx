@@ -13,12 +13,13 @@ import {
 } from '@mui/material';
 import { selectUser } from '@/store/auth/selectors';
 import { logout } from '@/store/auth/thunks';
-import { persistor, AppDispatch } from '@/store';
+import { useRouter } from 'next/navigation';
 
 export const Profile = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const router = useRouter();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -28,20 +29,12 @@ export const Profile = () => {
     setAnchorEl(null);
   };
   const handleLogout = async () => {
-    try {
-
-      // Dispatch logout after purge is complete
-      dispatch(logout());
-      // Clear browser storage on logout
-      localStorage.clear();
-      sessionStorage.clear();
-      // Purge redux-persist storage
-      await persistor.purge();
-
-      handleMenuClose();
-    } catch (error) {
-      console.error('Logout error:', error);
+    const res = await dispatch(logout());
+    if (res.meta.requestStatus === 'rejected') {
+      router.push('/auth/login');
     }
+    console.log(res);
+    handleMenuClose();
   };
 
   console.log('user ==>', user);
@@ -53,7 +46,7 @@ export const Profile = () => {
       <IconButton
         onClick={handleMenuOpen}
         size="small"
-        sx={{ ml: 2 }}
+        sx={{ ml: 2, '&:hover': { backgroundColor: 'transparent' }}}
         aria-label="Profile menu"
         aria-controls={Boolean(anchorEl) ? 'profile-menu' : undefined}
         aria-haspopup="true"
@@ -62,6 +55,16 @@ export const Profile = () => {
         <Avatar sx={{ width: 32, height: 32, bgcolor: 'success.main' }}>
           {user.firstName[0].toUpperCase()}
         </Avatar>
+        <Typography variant="subtitle1" sx={{ 
+          fontWeight: 600,
+          ml: 1,
+          maxWidth: 100,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          }}>
+            {user.firstName} {user.lastName}
+          </Typography>
       </IconButton>
       <Menu
         id="profile-menu"

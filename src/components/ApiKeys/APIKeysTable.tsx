@@ -1,12 +1,12 @@
 import { APIKeyTableRow } from './APIKeyTableRow';
 import { DataTable } from '../common/DataTable';
-import { APIKey } from '@/types/apiKeys'; // Assuming you have this type defined
+import { APIKey } from '@/types/apiKeys';
 
 const columns = [
   { id: 'name', label: 'Name' },
   { id: 'key', label: 'API Key' },
   { id: 'type', label: 'Type' },
-  { id: 'actions', label: 'Actions', align: 'right' as const }
+  { id: 'actions', label: 'Actions', align: 'center' as const }
 ];
 
 interface APIKeysTableProps {

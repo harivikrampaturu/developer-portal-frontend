@@ -1,78 +1,140 @@
-import React, { useState } from 'react';
+import React from 'react';
 import HomeIcon from '@mui/icons-material/HomeOutlined';
 import SettingsIcon from '@mui/icons-material/SettingsOutlined';
 import FileIcon from '@mui/icons-material/UploadOutlined';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-import {
-  NavWrapper,
-  StyledList,
-  StyledListItem,
-  StyledListItemIcon,
-  StyledListItemText,
-  ToggleButton,
-} from './styled';
-import { ROUTES } from '@/constants/routes';
-import { LogoContainer } from './styled';
 import Image from 'next/image';
-import { useSelector } from 'react-redux';
-import { selectEmail } from '@/store/auth';
+import { IconButton, useTheme, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
+import { useDispatch } from 'react-redux';
+import Profile from '../Profile';
+import { styled } from '@mui/material/styles';
+import { ROUTES } from '@/constants/routes';
+import { toggleThemeMode } from '@/store/theme/themeSlice';
 
-const defaultNavItems = [
+const navigationItems = [
   { text: 'Home', icon: <HomeIcon />, href: ROUTES.DASHBOARD },
   { text: 'Files', icon: <FileIcon />, href: ROUTES.FILES },
   { text: 'API Keys', icon: <SettingsIcon />, href: ROUTES.API_KEYS },
-  { text: 'Recordings', icon: <FileIcon />, href: ROUTES.RECORDING },
+  { text: 'Recordings', icon: <RadioButtonCheckedOutlinedIcon />, href: ROUTES.RECORDING },
 ];
 
+// Styled Components
+const NavWrapper = styled('nav')<{ isOpen: boolean }>(({ theme, isOpen }) => ({
+  width: isOpen ? 240 : 72,
+  height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  backgroundColor: theme.palette.background.paper,
+  borderRight: `1px solid ${theme.custom.border}`,
+  transition: 'width 0.3s ease',
+  position: 'fixed',
+  left: 0,
+  top: 0,
+  zIndex: 1100,
+}));
+
+const LogoContainer = styled('div')<{ isOpen: boolean }>(({ isOpen }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: 72,
+  paddingLeft: isOpen ? 0 : 0,
+}));
+
+const StyledList = styled(List)({
+  paddingTop: 0,
+  flex: 1,
+});
+
+const StyledListItem = styled(ListItem)<{ isOpen: boolean; active: boolean }>(({ theme, active }) => ({
+  paddingLeft: 16,
+  paddingRight: 16,
+  color: active ? theme.palette.primary.main : theme.palette.text.primary,
+  backgroundColor: active ? theme.palette.action.selected : 'transparent',
+  '&:hover': {
+    backgroundColor: '#fdeaea',
+  },
+}));
+
+const StyledListItemIcon = styled(ListItemIcon)({
+  minWidth: 40,
+});
+
+const StyledListItemText = styled(ListItemText)({
+  fontWeight: 500,
+});
+
+const FooterContainer = styled('div')(({ theme }) => ({
+  padding: theme.spacing(2),
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+}));
+
+// Main Component
 interface SideNavbarProps {
   isOpen: boolean;
   onToggle: () => void;
 }
 
-const SideNavbar: React.FC<SideNavbarProps> = ({ isOpen, onToggle }) => {
+const SideNavbar: React.FC<SideNavbarProps> = ({ isOpen }) => {
   const pathname = usePathname();
-  const email = useSelector(selectEmail);
-
-  let navigationItems = defaultNavItems;
-
-  if (email === 'user@meeamitech.com' || email === 'user@user.com' || email === 'customer@meeamitech.com') {
-    navigationItems = defaultNavItems.filter(item => item.text === 'Recordings')
-
-    console.log(navigationItems);
-  }
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const isDarkMode = theme.palette.mode === 'dark';
 
   return (
     <NavWrapper isOpen={isOpen}>
-      <ToggleButton onClick={onToggle}>
-        {isOpen ? <ChevronLeftIcon fontSize="small" /> : <ChevronRightIcon fontSize="small" />}
-      </ToggleButton>
-      <LogoContainer isOpen={isOpen}>
-        <Image
-          src="/logo.svg"
-          alt="Materialize Logo"
-          width={140}
-          height={60}
-          priority
-        />
-      </LogoContainer>
-      <StyledList>
-        {navigationItems.map((item) => (
-          <Link key={item.text} href={item.href || ''} style={{ textDecoration: 'none' }}>
-            <StyledListItem isOpen={isOpen} active={pathname === item.href}>
-              <StyledListItemIcon>
-                {item.icon}
-              </StyledListItemIcon>
-              {isOpen && <StyledListItemText primary={item.text} />}
-            </StyledListItem>
-          </Link>
-        ))}
-      </StyledList>
+      <div>
+        <LogoContainer isOpen={isOpen}>
+          <Image
+            src="/meeami-logo-black.jpg"
+            alt="Meeami Logo"
+            width={180}
+            height={60}
+            priority
+          />
+        </LogoContainer>
+
+        <StyledList>
+          {navigationItems.map((item) => (
+            <Link key={item.text} href={item.href || ''} style={{ textDecoration: 'none' }}>
+              <StyledListItem isOpen={isOpen} active={pathname === item.href}>
+                <StyledListItemIcon>{item.icon}</StyledListItemIcon>
+                {isOpen && <StyledListItemText primary={item.text} />}
+              </StyledListItem>
+            </Link>
+          ))}
+        </StyledList>
+      </div>
+      <div>
+          <hr style={{ border: "1px solid #e5e7eb", width: '100%', marginBottom: '1px' }} />
+      <FooterContainer sx={ {mr: 2, mb: 2, px: 0, py: '8px'}}>
+      
+      <Profile />
+        {/* <IconButton
+          onClick={() => dispatch(toggleThemeMode())}
+          sx={{
+            color: isDarkMode ? '#fff' : theme.palette.text.primary,
+            '&:hover': {
+              backgroundColor:
+                theme.palette.mode === 'light'
+                  ? theme.palette.action.hover
+                  : theme.custom.hoverDark,
+            },
+          }}
+        >
+          {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+        </IconButton> */}
+      </FooterContainer>
+      </div>
+
     </NavWrapper>
   );
 };
 
-export default SideNavbar; 
+export default SideNavbar;

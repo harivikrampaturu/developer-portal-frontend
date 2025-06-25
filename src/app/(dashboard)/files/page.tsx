@@ -2,14 +2,12 @@
 
 import FileList from './list/page';
 import { 
-  AutoFixHigh, 
   NoiseAware, 
-  GraphicEq, 
   SurroundSound, 
   Tune, 
   SettingsVoice 
 } from '@mui/icons-material';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import React, { useState } from  'react';
 import { StyledCard, IconWrapper, ConfigTitle } from './styled';
 import FileUploadModal from '@/components/FileUpload/FileUploadModal';
@@ -83,7 +81,25 @@ export default function FilesPage() {
       >
         Files
       </Typography>
-      <Button 
+      <Typography
+  variant="body1"
+  onClick={() => handleViewChange(view === 'file-list' ? 'upload-config' : 'file-list')}
+  sx={{
+    cursor: 'pointer',
+    color: 'primary.main',
+    textDecoration: 'underline',
+    display: 'inline-block',
+    borderRadius: 2,
+    px: 2,
+    py: 1,
+    '&:hover': {
+      textDecoration: 'none',
+    },
+  }}
+>
+  {view === 'file-list' ? 'Back to Upload Files' : 'View Files'}
+</Typography>
+      {/* <Button 
         variant="contained" 
         onClick={() => handleViewChange(view === 'file-list' ? 'upload-config' : 'file-list')}
         sx={{
@@ -93,7 +109,7 @@ export default function FilesPage() {
         }}
       >
         {view === 'file-list' ? 'Upload' : 'View Files'}
-      </Button>
+      </Button> */}
     </Box>
 
     {view === 'file-list' && (
@@ -108,7 +124,7 @@ export default function FilesPage() {
               <IconWrapper>
                 {config.icon}
               </IconWrapper>
-              <ConfigTitle variant="h6">
+              <ConfigTitle sx={{ fontWeight: 400 }}>
                 {config.label}
               </ConfigTitle>
             </StyledCard>

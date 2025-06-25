@@ -2,41 +2,39 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  ListItemText,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  CircularProgress,
+  Chip,
+  Typography,
+  TablePagination,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   Button,
-  Typography,
-  CircularProgress,
-  TablePagination,
-  Box,
-  Chip,
-  ListItem,
+  Tooltip,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import DownloadIcon from '@mui/icons-material/DownloadOutlined';
-import AudioFileIcon from '@mui/icons-material/AudioFile';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store';
 import { deleteUpload, fetchUploads, getById } from '@/store/upload/uploadThunks';
-import {
-  StyledList,
-  ActionBox,
-  StyledIconButton,
-  LoaderBox,
-  PaginationBox,
-} from './FileList.styled';
-import { styled } from '@mui/material/styles';
-import { alpha } from '@mui/material/styles';
+import { useRouter } from 'next/navigation';
 
 interface FileListProps {
   files: Array<{
     _id: string;
-      originalName: string;
-      fileSize: number;
+    originalName: string;
+    fileSize: number;
     status: string;
     updatedAt: string;
     path: string;
@@ -45,33 +43,42 @@ interface FileListProps {
   loading: boolean;
 }
 
-const StyledListItem = styled(ListItem)(({ theme }) => ({
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.primary.main, 0.04),
-    transition: 'background-color 0.2s ease',
-  },
-  borderBottom: `1px solid ${theme.palette.divider}`,
-  '&:last-child': {
-    borderBottom: 'none',
-  },
-}));
-
 const FileList: React.FC<FileListProps> = ({ total = 0, files = [], loading }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [tooltipText, setTooltipText] = useState('Download');
+  const [showAlert, setShowAlert] = useState(false);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+  const router = useRouter();
 
-  useEffect(() => {
-    dispatch(fetchUploads({ page: page + 1, limit: rowsPerPage }));
-  }, [dispatch, page, rowsPerPage]);
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await dispatch(fetchUploads({ page: page + 1, limit: rowsPerPage }));
+          if (response.meta.requestStatus === 'rejected') {
+            if (response.payload?.status === 401) {
+              setShowAlert(true);
+              setShouldRedirect(true);
+            }
+          }
+        } catch (error) {
+          console.error("Failed to fetch uploads:", error);
+        }
+      };
+    
+      fetchData();
+    }, [dispatch, page, rowsPerPage]);
 
   const handleGetById = async (id: string) => {
     const signedUrl = await dispatch(getById(id));
+    setTooltipText('Downloaded');
+    setTimeout(() => setTooltipText('Download'), 1500);
     const link = document.createElement('a');
     link.href = signedUrl.payload;
-    link.download = 'file.wav'; // Set the desired file name
+    link.download = 'file.wav';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -94,108 +101,78 @@ const FileList: React.FC<FileListProps> = ({ total = 0, files = [], loading }) =
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newLimit = parseInt(event.target.value, 10);
-    setRowsPerPage(newLimit);
-    setPage(0); // Reset to the first page when rows per page changes
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   if (loading) {
     return (
-      <LoaderBox>
+      <Paper sx={{ padding: 4, textAlign: 'center' }}>
         <CircularProgress />
-      </LoaderBox>
+      </Paper>
     );
   }
 
   return (
     <>
-      <StyledList>
-        {files?.map((file) => (
-          <StyledListItem
-            key={file._id}
-            secondaryAction={
-              <ActionBox>
-                <StyledIconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => handleDeleteClick(file._id)}
-                  color="error"
-                >
-                  <DeleteIcon />
-                </StyledIconButton>
-                <StyledIconButton
-                  onClick={() => handleGetById(file._id)}
-                  color="primary"
-                >
-                  <DownloadIcon />
-                </StyledIconButton>
-              </ActionBox>
-            }
+    <Snackbar
+            open={showAlert}
+            autoHideDuration={2000}
+            onClose={() => {
+              setShowAlert(false);
+              if (shouldRedirect) {
+                router.push('/auth/login');
+              }
+            }}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            transitionDuration={500}
+            sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}
           >
-            <AudioFileIcon 
-              sx={{ 
-                mr: 4, 
-                ml: 2,
-                color: 'primary.main',
-                fontSize: '2rem' 
-              }} 
-            />
-            <ListItemText
-              primary={
-                <Typography variant="subtitle1" fontWeight="medium">
-                  {file.originalName}
-                </Typography>
-              }
-              secondary={
-                <Typography 
-                  component="div" 
-                  variant="body2" 
-                  sx={{ mt: 0.5 }}
-                >
-                  <Box 
-                    component="span" 
-                    sx={{ 
-                      display: 'flex', 
-                      alignItems: 'center',
-                      gap: 2,
-                      flexWrap: 'wrap'
-                    }}
-                  >
-                      <Box 
-                      component="span" 
-                      sx={{ 
-                        color: 'text.secondary',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 0.5
-                      }}
-                    >
-                      <CalendarTodayIcon sx={{ fontSize: '0.9rem' }} />
-                      {new Date(file.updatedAt).toLocaleDateString()}
-                    </Box>
-                    <Chip
-                      label={file.status}
-                      size="small"
-                      variant='outlined'
-                      color={file.status === 'completed' ? 'success' : 'warning'}
-                      sx={{
-                        fontSize: '0.8rem',
-                        textTransform: 'capitalize',
-                        borderRadius: '10px',
-                        padding: '4px 8px'
-                      }}
-                    />
-                  
-                  
-                  </Box>
-                </Typography>
-              }
-            />
-          </StyledListItem>
-        ))}
-      </StyledList>
+            <Alert variant='filled' severity="error" sx={{ width: '100%' }}>
+              Cookie expired, redirecting to login...
+            </Alert>
+          </Snackbar>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
+            <TableRow>
+              <TableCell><strong>Filename</strong></TableCell>
+              <TableCell><strong>Uploaded At</strong></TableCell>
+              <TableCell><strong>Status</strong></TableCell>
+              <TableCell align="center"><strong>Actions</strong></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {files.map((file) => (
+              <TableRow key={file._id}>
+                <TableCell>{file.originalName[0].toUpperCase() + file.originalName.substring(1)}</TableCell>
+                <TableCell>
+                  {new Date(file.updatedAt).toLocaleDateString()}
+                </TableCell>
+                <TableCell>
+                  <Chip
+                    label={file.status}
+                    size="small"
+                    color={file.status === 'completed' ? 'success' : 'warning'}
+                    variant="outlined"
+                    sx={{ textTransform: 'capitalize' }}
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  <IconButton onClick={() => handleDeleteClick(file._id)} color="error">
+                    <DeleteIcon />
+                  </IconButton>
+                  <Tooltip title={tooltipText} arrow>
+                  <IconButton onClick={() => handleGetById(file._id)} color="primary">
+                    <DownloadIcon />
+                  </IconButton>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
 
-      <PaginationBox>
         <TablePagination
           component="div"
           count={total}
@@ -205,42 +182,21 @@ const FileList: React.FC<FileListProps> = ({ total = 0, files = [], loading }) =
           onRowsPerPageChange={handleChangeRowsPerPage}
           rowsPerPageOptions={[5, 10, 25]}
         />
-      </PaginationBox>
+      </TableContainer>
 
-      <Dialog 
-        open={deleteDialogOpen} 
-        onClose={() => setDeleteDialogOpen(false)}
-        PaperProps={{
-          sx: {
-            borderRadius: 2,
-            p: 1
-          }
-        }}
-      >
-        <DialogTitle sx={{ pb: 1 }}>Confirm Delete</DialogTitle>
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+        <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
-          <Typography>
-            Are you sure you want to delete this file?
-          </Typography>
+          <Typography>Are you sure you want to delete this file?</Typography>
         </DialogContent>
-        <DialogActions sx={{ p: 2, pt: 1 }}>
-          <Button 
-            onClick={() => setDeleteDialogOpen(false)}
-            variant="outlined"
-          >
-            Cancel
-          </Button>
-          <Button 
-            onClick={handleConfirmDelete} 
-            color="error"
-            variant="contained"
-          >
-            Delete
-          </Button>
+        <DialogActions>
+          <Button onClick={() => setDeleteDialogOpen(false)} variant="outlined">Cancel</Button>
+          <Button onClick={handleConfirmDelete} variant="contained" color="error">Delete</Button>
         </DialogActions>
       </Dialog>
     </>
   );
 };
 
-export default FileList; 
+export default FileList;

@@ -101,7 +101,20 @@ export default function ApiKeysManager() {
   };
 
   useEffect(() => {
-    dispatch(fetchApiKeys());
+    const fetchData = async () => {
+      try {
+        const response =  await dispatch(fetchApiKeys());
+        if (response.meta.requestStatus === 'rejected') {
+          if (response.payload?.status === 401) {
+          alert('Cookie expired, redirecting to login...');
+              router.push('/auth/login');
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch apikeys:", error);
+      }
+    }
+    fetchData();
   }, [dispatch]);
 
   const handleTabChange = (event, newValue) => {

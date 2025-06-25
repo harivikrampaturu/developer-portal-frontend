@@ -1,4 +1,4 @@
-import { TableRow, TableCell, IconButton, Chip, Stack } from '@mui/material';
+import { TableRow, TableCell, IconButton, Chip, Stack, Tooltip } from '@mui/material';
 import { APIKey } from '@/store/apiKeys/apiKeysSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -14,10 +14,13 @@ interface APIKeyTableRowProps {
 export function APIKeyTableRow({ apiKey }: APIKeyTableRowProps) {
   const dispatch = useDispatch<AppDispatch>();
   const [copied, setCopied] = useState(false);
+  const [tooltipText, setTooltipText] = useState('Copy');
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(apiKey.key);
     setCopied(true);
+    setTooltipText('Copied');
+    setTimeout(() => setTooltipText('Copy'), 1500);
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -35,6 +38,7 @@ export function APIKeyTableRow({ apiKey }: APIKeyTableRowProps) {
           <code className="px-2 py-1 rounded bg-gray-100 dark:bg-gray-800">
             {apiKey.key}
           </code>
+          <Tooltip title={tooltipText} arrow>
           <IconButton
             size="small"
             onClick={copyToClipboard}
@@ -42,6 +46,7 @@ export function APIKeyTableRow({ apiKey }: APIKeyTableRowProps) {
           >
             <ContentCopyIcon fontSize="small" />
           </IconButton>
+          </Tooltip>
         </Stack>
       </TableCell>
       <TableCell>
@@ -51,7 +56,7 @@ export function APIKeyTableRow({ apiKey }: APIKeyTableRowProps) {
           color={apiKey.isPublic ? 'success' : 'secondary'}
         />
       </TableCell>
-      <TableCell align="right">
+      <TableCell align="center">
         <IconButton
           size="small"
           onClick={handleDelete}

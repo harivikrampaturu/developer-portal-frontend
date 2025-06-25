@@ -1,22 +1,13 @@
 'use client';
 
 import { Inter } from 'next/font/google';
-import { useDispatch} from 'react-redux';
 import { 
-  AppBar, 
-  Toolbar, 
-  IconButton, 
-  Typography,
   Box,
-  useTheme
 } from '@mui/material';
-import { Brightness4, Brightness7 } from '@mui/icons-material';
-import { toggleThemeMode } from '@/store/theme/themeSlice';
 import { Providers } from '@/components/Providers';
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import LayoutAuthWrapper from '@/components/LayoutAuthWrapper/LayoutAuthWrapper';
 import "./globals.css";
-import { Profile } from '@/components/Profile';
 
 // Move Inter font initialization outside the component since it needs to be at module level
 const inter = Inter({ 
@@ -31,9 +22,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const dispatch = useDispatch();
-  const theme = useTheme();
-  const isDarkMode = theme.palette.mode === 'dark';
+
 
   return (
     <html lang="en" className={inter.variable}>
@@ -42,7 +31,7 @@ export default function RootLayout({
           <ThemeRegistry>
             <LayoutAuthWrapper>
               <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-                <AppBar 
+                {/* <AppBar 
                   position="static" 
                   elevation={0}
                 
@@ -81,7 +70,7 @@ export default function RootLayout({
                     </IconButton>
                     <Profile />
                   </Toolbar>
-                </AppBar>
+                </AppBar> */}
                 <Box 
                   component="main" 
                   sx={{ 

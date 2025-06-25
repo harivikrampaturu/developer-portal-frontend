@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import config from '@/config';
 
 interface Audio {
   id: string;
@@ -26,7 +25,7 @@ export const fetchAudioFiles = createAsyncThunk(
   'audio/fetchAudioFiles',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${config.api.baseUrl}/accent/v1/uploads-file/Developer-Portal`); // Ensure this URL is correct
+      const response = await axios.get('http://localhost:8500/accent/v1/uploads-file/Developer-Portal'); // Ensure this URL is correct
       return response.data.files; // Ensure the response structure matches this
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch audio files');
@@ -38,7 +37,7 @@ export const getById = createAsyncThunk(
   'upload/getById',
   async (id: string, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${config.api.baseUrl}/docs/v1/uploads/${id}`, {
+      const response = await axios.get(`http://localhost:8500/docs/v1/uploads/${id}`, {
         withCredentials: true,
       });
       return response.data.signedUrl; // Ensure this matches the API response
