@@ -62,9 +62,9 @@ export function CreateAPIKeyModal({ open, onClose }: CreateAPIKeyModalProps) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogContent>
-        <DialogTitle>New API Key</DialogTitle>
+        <DialogTitle className="font-bold">New API Key</DialogTitle>
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <label className="text-sm font-medium p-2">API Key Name</label>
@@ -94,8 +94,7 @@ export function CreateAPIKeyModal({ open, onClose }: CreateAPIKeyModalProps) {
                 onKeyDown={handleKeyDown}
                 placeholder="Enter allowed URLs"
                 variant="outlined"
-                multiline
-                rows={3}
+                rows={2}
                 fullWidth
                 error={error}
                 helperText={error ? 'Please enter a valid URL' : ''}
@@ -114,10 +113,10 @@ export function CreateAPIKeyModal({ open, onClose }: CreateAPIKeyModalProps) {
           )}
         </div>
         <div className="flex justify-end space-x-2">
-          <Button variant="outlined" onClick={onClose}>
+          <Button onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit}>
+          <Button variant="contained" onClick={handleSubmit}>
             Create Token
           </Button>
         </div>

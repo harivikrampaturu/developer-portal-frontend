@@ -22,6 +22,7 @@ export const login = createAsyncThunk(
     try {
       const response = await api.post('/authentication/login', credentials, {withCredentials: true} );
       setDefaultAuthorizationHeader(response.data.token);
+      console.log(response.data.token);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Login failed');
@@ -33,7 +34,7 @@ export const userDetails = createAsyncThunk(
   'users/me',
   async (_, {rejectWithValue}) => {
     try {
-      const response = await api.get('/auth/users/me', {
+      const response = await api.get('/auth/v1/users/me', {
         withCredentials: true,
       });
       console.log("User data", response);
@@ -63,7 +64,7 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get('/authentication/logout', {withCredentials: true});
-
+      setDefaultAuthorizationHeader('');
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Logout failed');

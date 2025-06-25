@@ -1,21 +1,15 @@
-'use client';
 
-import { Box, Typography, useTheme } from '@mui/material';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import HomeClient from './HomeClient';
 
-export default function Home() {
-  const theme = useTheme();
+export default async function Home() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('jwt-dev');
 
-  return (
-    <Box sx={{ p: 3 }}>
-      <Typography 
-        variant="h4" 
-        sx={{ 
-          color: theme.palette.text.primary,
-          mb: 2 
-        }}
-      >
-        Welcome to Developer Portal
-      </Typography>
-    </Box>
-  );
+  if (!token) {
+    redirect('/auth/login');
+  }
+
+  return <HomeClient />;
 }

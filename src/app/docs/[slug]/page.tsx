@@ -1,20 +1,23 @@
 import { Metadata } from 'next';
 
 interface Props {
-  params: { slug: string }
+  params: { slug: string };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = params;
   return {
-    title: `${params.slug} Documentation`,
-    description: `Documentation for ${params.slug}`,
-  }
+    title: `${slug} Documentation`,
+    description: `Documentation for ${slug}`,
+  };
 }
 
 export default function DocPage({ params }: Props) {
+  const { slug } = params;
+
   return (
     <div>
-      <h1>{params.slug} Documentation</h1>
+      <h1>{slug} Documentation</h1>
     </div>
-  )
-} 
+  );
+}

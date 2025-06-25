@@ -3,9 +3,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FILE_UPLOAD_CONFIG } from '@/constants';
 import { RootState } from '@/store/index';
 import { selectUploadConfig } from './uploadSelectors';
-import config from '@/config';
-
-
 
 // Define fetchUploads async thunk
 export const fetchUploads = createAsyncThunk(
@@ -13,16 +10,19 @@ export const fetchUploads = createAsyncThunk(
   // Accept parameters to be passed to the action
   async ({ page, limit }: {  page: number; limit: number }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${config.api.baseUrl}/docs/v1/uploads`, {
+      const response = await axios.get('http://localhost:8500/docs/v1/uploads', {
         params: {
           page: page, // Page starts from 1 on the server-side
           limit,
         },
         withCredentials: true,
       });
-      return response.data;
+      return await response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue({
+        message: error.response?.data?.message || 'Failed to fetch uploads',
+        status: error.response?.status
+      });
     }
   }
 );
@@ -46,19 +46,22 @@ export const fetchUploads = createAsyncThunk(
           console.log(pair[0], pair[1]);
         }
   
-        const response = await axios.post(`${config.api.baseUrl}/docs/v1/uploads`, formData, {
+        const response = await axios.post('http://localhost:8500/docs/v1/uploads', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
           params: {...config},
           withCredentials: true,
         });
-        dispatch(fetchUploads());
-        return response.data;
+        await dispatch(fetchUploads({ page: 1, limit: 5 }));
+        return await response.data;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         console.error('Upload error:', error.response?.data);
-        return rejectWithValue(error.response?.data);
+        return rejectWithValue({
+          message: error.response?.data?.message || 'Failed to upload file',
+          status: error.response?.status
+        });
       }
     }
   );
@@ -67,11 +70,11 @@ export const fetchUploads = createAsyncThunk(
     'upload/deleteUpload',
     async (id: string, { rejectWithValue }) => {
       try {
-        await axios.delete(`${config.api.baseUrl}/docs/v1/uploads/${id}`,{
+        await axios.delete(`http://localhost:8500/docs/v1/uploads/${id}`,{
           withCredentials: true,
         });
         return id;
-      } catch (error) {
+      } catch (error: any) {
         return rejectWithValue(error.response.data);
       }
     }
@@ -81,11 +84,11 @@ export const fetchUploads = createAsyncThunk(
     'upload/getById',
     async (id: string, { rejectWithValue }) => {
       try {
-        const response = await axios.get(`${config.api.baseUrl}/docs/v1/uploads/${id}`, {
+        const response = await axios.get(`http://localhost:8500/docs/v1/uploads/${id}`, {
           withCredentials: true,
         });
         return response.data?.signedUrl;
-      } catch (error) {
+      } catch (error: any) {
         return rejectWithValue(error.response.data);
       }
     }

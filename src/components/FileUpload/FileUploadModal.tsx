@@ -17,6 +17,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store';
 import { uploadFile } from '@/store/upload/uploadThunks';
+import { useRouter } from 'next/navigation';
 
 interface FileUploadModalProps {
   open: boolean;
@@ -29,6 +30,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ open, onClose }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -76,9 +78,14 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ open, onClose }) => {
       setUploading(true);
       try {
         await dispatch(uploadFile(selectedFile)).unwrap();
+        setSelectedFile(null);
         onClose();
-      } catch (error) {
+      } catch (error: any) {
         console.error('Upload failed:', error);
+        if (error.status === 401) {
+          alert('Session expired, please log in again.');
+          router.push('/auth/login');
+        }
       } finally {
         setUploading(false);
       }

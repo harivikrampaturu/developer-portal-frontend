@@ -26,7 +26,6 @@ import {
   SignupText,
   SignupLink,
   LogoContainer,
-  LeftContainer,
   RightContainer,
   OrDivider,
   SocialLoginContainer
@@ -35,7 +34,7 @@ import {
 export default function RegisterPage() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  const { loading, error } = useSelector((state: RootState) => state.auth);
+  const { error } = useSelector((state: RootState) => state.auth);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -89,10 +88,10 @@ export default function RegisterPage() {
         <StyledPaper>
           <LogoContainer>
             <Image
-              src="/logo.svg"
+              src="/meeami-logo-black.jpg"
               alt="Materialize Logo"
               width={140}
-              height={60}
+              height={30}
               priority
             />
           </LogoContainer>
