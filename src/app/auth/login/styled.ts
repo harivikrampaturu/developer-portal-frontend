@@ -1,16 +1,17 @@
-
 import styled from '@emotion/styled';
 import { Paper, TextField, Button } from '@mui/material';
+import type { Theme } from '@mui/material/styles';
 
-export const Container = styled('div')`
-  min-height: 100vh;
-  display: flex;
-  background: ${({ theme }) => theme.palette.grey[50]};
-  
-  @media (max-width: 899px) {
-    flex-direction: column;
-  }
-`;
+type WithTheme = { theme: Theme };
+
+export const Container = styled('div')(({ theme }: WithTheme) => ({
+  minHeight: '100vh',
+  display: 'flex',
+  background: theme.palette.grey[50],
+  '@media (max-width: 899px)': {
+    flexDirection: 'column' as const,
+  },
+}));
 
 export const LeftContainer = styled('div')({
   flex: '1 1 50%',
@@ -48,7 +49,7 @@ export const StyledPaper = styled(Paper)`
   border-radius: 20px;
   box-shadow: 0 8px 40px rgba(0,0,0,0.06);
   padding: 20px;
-  
+
   @media (min-width: 600px) {
     padding: 40px;
   }
@@ -59,38 +60,38 @@ export const Logo = styled('img')({
   height: 'auto'
 });
 
-export const Title = styled('h2')`
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: ${({ theme }) => theme.palette.text.primary};
-  & span {
-    display: inline-block;
-    margin-left: 0.5rem;
-  }
-`;
+export const Title = styled('h2')(({ theme }: WithTheme) => ({
+  fontWeight: 600,
+  marginBottom: '0.5rem',
+  color: theme.palette.text.primary,
+  '& span': {
+    display: 'inline-block',
+    marginLeft: '0.5rem',
+  },
+}));
 
-export const Subtitle = styled('p')`
-  margin-bottom: 2rem;
-  color: ${({ theme }) => theme.palette.text.secondary};
-  text-align: center;
-`;
+export const Subtitle = styled('p')(({ theme }: WithTheme) => ({
+  marginBottom: '2rem',
+  color: theme.palette.text.secondary,
+  textAlign: 'center' as const,
+}));
 
 export const Form = styled('form')({
   width: '100%'
 });
 
-export const StyledTextField = styled(TextField)`
-  & .MuiOutlinedInput-root {
-    border-radius: 8px;
-    background-color: #fff;
-    &:hover fieldset {
-      border-color: ${({ theme }) => theme.palette.primary.main};
-    }
-    & fieldset {
-      border-color: ${({ theme }) => theme.palette.grey[200]};
-    }
+export const StyledTextField = styled(TextField)(({ theme }: WithTheme) => ({
+  '& .MuiOutlinedInput-root': {
+    borderRadius: 8,
+    backgroundColor: '#fff',
+    '&:hover fieldset': {
+      borderColor: theme.palette.primary.main,
+    },
+    '& fieldset': {
+      borderColor: theme.palette.grey[200],
+    },
   }
-`;
+}));
 
 export const SubmitButton = styled(Button)({
   padding: '0.75rem',
@@ -111,9 +112,9 @@ export const SignupContainer = styled('div')({
   marginTop: '0.5rem'
 });
 
-export const SignupText = styled('span')(({ theme }) => ({
+export const SignupText = styled('span')(({ theme }: WithTheme) => ({
   fontSize: '0.875rem',
-  color: theme?.palette?.text?.secondary
+  color: theme.palette.text.secondary
 }));
 
 export const SignupLink = styled('a')({
@@ -157,10 +158,10 @@ export const SocialLoginContainer = styled('div')({
   marginBottom: '1.5rem'
 });
 
-export const ErrorNotification = styled.div`
-  background-color: ${props => props.theme.palette.error.main};
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-`;
+export const ErrorNotification = styled('div')(({ theme }: WithTheme) => ({
+  backgroundColor: theme.palette.error.main,
+  color: 'white',
+  padding: '10px',
+  borderRadius: '5px',
+  marginBottom: '10px',
+}));

@@ -1,21 +1,25 @@
+// src/app/docs/[slug]/page.tsx
 import { Metadata } from 'next';
 
-type Params = { params: { slug: string } };
-
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const { slug } = params;
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   return {
-    title: `${slug} Documentation`,
-    description: `Documentation for ${slug}`,
+    title: `${params.slug} Documentation`,
+    description: `Documentation for ${params.slug}`,
   };
 }
 
-export default function DocPage({ params }: Params) {
-  const { slug } = params;
-
+export default function DocPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   return (
     <div>
-      <h1>{slug} Documentation</h1>
+      <h1>{params.slug} Documentation</h1>
     </div>
   );
 }
