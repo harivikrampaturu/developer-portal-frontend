@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FILE_UPLOAD_CONFIG } from '@/constants';
 import { RootState } from '@/store/index';
 import { selectUploadConfig } from './uploadSelectors';
+import config from '@/config';
 
 // Define fetchUploads async thunk
 export const fetchUploads = createAsyncThunk(
@@ -10,7 +11,7 @@ export const fetchUploads = createAsyncThunk(
   // Accept parameters to be passed to the action
   async ({ page, limit }: {  page: number; limit: number }, { rejectWithValue }) => {
     try {
-      const response = await axios.get('http://localhost:8500/docs/v1/uploads', {
+      const response = await axios.get(`${config.api.baseUrl}/docs/v1/uploads`, {
         params: {
           page: page, // Page starts from 1 on the server-side
           limit,
@@ -37,20 +38,20 @@ export const fetchUploads = createAsyncThunk(
         const formData = new FormData();
         formData.append('file', file);
 
-        const config = FILE_UPLOAD_CONFIG[selectedConfig as keyof typeof FILE_UPLOAD_CONFIG] || FILE_UPLOAD_CONFIG.mvns;
+        const uploadConfig = FILE_UPLOAD_CONFIG[selectedConfig as keyof typeof FILE_UPLOAD_CONFIG] || FILE_UPLOAD_CONFIG.mvns;
         
         // Add logging to debug the FormData content
         console.log('File being uploaded:', file);
-        console.log('Config:', config);
+        console.log('Config:', uploadConfig);
         for (const pair of Array.from(formData.entries())) {
           console.log(pair[0], pair[1]);
         }
   
-        const response = await axios.post('http://localhost:8500/docs/v1/uploads', formData, {
+        const response = await axios.post(`${config.api.baseUrl}/docs/v1/uploads`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-          params: {...config},
+          params: { ...uploadConfig },
           withCredentials: true,
         });
         await dispatch(fetchUploads({ page: 1, limit: 5 }));
@@ -70,7 +71,7 @@ export const fetchUploads = createAsyncThunk(
     'upload/deleteUpload',
     async (id: string, { rejectWithValue }) => {
       try {
-        await axios.delete(`http://localhost:8500/docs/v1/uploads/${id}`,{
+        await axios.delete(`${config.api.baseUrl}/docs/v1/uploads/${id}`,{
           withCredentials: true,
         });
         return id;
@@ -84,7 +85,7 @@ export const fetchUploads = createAsyncThunk(
     'upload/getById',
     async (id: string, { rejectWithValue }) => {
       try {
-        const response = await axios.get(`http://localhost:8500/docs/v1/uploads/${id}`, {
+        const response = await axios.get(`${config.api.baseUrl}/docs/v1/uploads/${id}`, {
           withCredentials: true,
         });
         return response.data?.signedUrl;

@@ -1,12 +1,14 @@
+import config from '@/config';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 // import { api } from '@/utils/axios';
 import axios from 'axios';
+
 
 export const fetchAPIKeys = createAsyncThunk(
   'apiKeys/fetchAPIKeys',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('http://localhost:8500/auth/v1/apikeys', {withCredentials: true});
+      const response = await axios.get(`${config.api.baseUrl}/auth/v1/apikeys`, {withCredentials: true});
 
       return response.data;
     } catch (error: any) {
@@ -19,7 +21,7 @@ export const createAPIKey = createAsyncThunk(
   'apiKeys/createAPIKey',
   async (data: { name: string; isPublic: boolean; allowedUrls: string[] }, { rejectWithValue }) => {
     try {
-      const { data: responseData } = await axios.post('http://localhost:8500/auth/v1/apikeys', data, {
+      const { data: responseData } = await axios.post(`${config.api.baseUrl}/auth/v1/apikeys`, data, {
         withCredentials: true,
       });
       return responseData;
@@ -33,7 +35,7 @@ export const deleteAPIKey = createAsyncThunk(
   'apiKeys/deleteAPIKey',
   async (id: string, { rejectWithValue }) => {
     try {
-      await axios.delete(`http://localhost:8500/auth/v1/apikeys/${id}`, {
+      await axios.delete(`${config.api.baseUrl}/auth/v1/apikeys/${id}`, {
         withCredentials: true,
       });
       return id;
