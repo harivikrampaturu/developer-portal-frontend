@@ -38,20 +38,20 @@ export const fetchUploads = createAsyncThunk(
         const formData = new FormData();
         formData.append('file', file);
 
-        const uploadConfig = FILE_UPLOAD_CONFIG[selectedConfig as keyof typeof FILE_UPLOAD_CONFIG] || FILE_UPLOAD_CONFIG.mvns;
+        const config = FILE_UPLOAD_CONFIG[selectedConfig as keyof typeof FILE_UPLOAD_CONFIG] || FILE_UPLOAD_CONFIG.mvns;
         
         // Add logging to debug the FormData content
         console.log('File being uploaded:', file);
-        console.log('Config:', uploadConfig);
+        console.log('Config:', config);
         for (const pair of Array.from(formData.entries())) {
           console.log(pair[0], pair[1]);
         }
   
-        const response = await axios.post(`${config.api.baseUrl}/docs/v1/uploads`, formData, {
+        const response = await axios.post(`https://api-dev.meeamitech.com/docs/v1/uploads`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-          params: { ...uploadConfig },
+          params: {...config},
           withCredentials: true,
         });
         await dispatch(fetchUploads({ page: 1, limit: 5 }));
