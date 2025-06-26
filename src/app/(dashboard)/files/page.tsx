@@ -13,6 +13,7 @@ import { StyledCard, IconWrapper, ConfigTitle } from './styled';
 import FileUploadModal from '@/components/FileUpload/FileUploadModal';
 import { useDispatch } from 'react-redux';
 import { setSelectedConfig } from '@/store/upload/uploadSlice';
+import type { AppDispatch } from '@/store'; // Adjust the path if your store file is elsewhere
 
 const voiceConfig = [
   {

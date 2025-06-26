@@ -59,7 +59,7 @@ export default function RegisterPage() {
     }));
 
     if (register.fulfilled.match(result)) {
-      router.push(ROUTES.DASHBOARD);
+      router.push('/dashboard');
     }
   };
 
@@ -96,8 +96,8 @@ export default function RegisterPage() {
             />
           </LogoContainer>
           
-          <Title>Adventure starts here 🚀</Title>
-          <Subtitle>Make your app management easy and fun!</Subtitle>
+          <Title theme={lightTheme}>Adventure starts here 🚀</Title>
+          <Subtitle theme={lightTheme}>Make your app management easy and fun!</Subtitle>
 
           <Form onSubmit={handleSubmit}>
             <FormControl fullWidth margin="normal">
@@ -110,6 +110,7 @@ export default function RegisterPage() {
                 autoFocus
                 value={formData.firstName}
                 onChange={handleChange}
+                theme={lightTheme}
               />
             </FormControl>
 
@@ -122,9 +123,9 @@ export default function RegisterPage() {
                 autoComplete="family-name"
                 value={formData.lastName}
                 onChange={handleChange}
+                theme={lightTheme}
               />
             </FormControl>
-
             <FormControl fullWidth margin="normal">
               <StyledTextField
                 fullWidth
@@ -134,9 +135,9 @@ export default function RegisterPage() {
                 autoComplete="email"
                 value={formData.email}
                 onChange={handleChange}
+                theme={lightTheme}
               />
             </FormControl>
-
             <FormControl fullWidth margin="normal">
               <StyledTextField
                 fullWidth
@@ -147,9 +148,9 @@ export default function RegisterPage() {
                 autoComplete="new-password"
                 value={formData.password}
                 onChange={handleChange}
+                theme={lightTheme}
               />
             </FormControl>
-
             <FormControl fullWidth margin="normal">
               <StyledTextField
                 fullWidth
@@ -159,6 +160,7 @@ export default function RegisterPage() {
                 label="Confirm Password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
+                theme={lightTheme}
               />
             </FormControl>
 
@@ -171,7 +173,7 @@ export default function RegisterPage() {
             </SubmitButton>
 
             <SignupContainer>
-              <SignupText>Already have an account?</SignupText>
+              <SignupText theme={lightTheme}>Already have an account?</SignupText>
               <MuiLink
                 component={Link}
                 href="/auth/login"

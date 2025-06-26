@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -50,9 +51,13 @@ export function DataTable<T>({
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {data.map(renderRow)}
-        </TableBody>
+    <TableBody>
+      {data.map((item, index) => (
+        <React.Fragment key={(item as any).id ?? index}>
+          {renderRow(item)}
+        </React.Fragment>
+      ))}
+    </TableBody>
       </Table>
       <TablePagination
         rowsPerPageOptions={rowsPerPageOptions}

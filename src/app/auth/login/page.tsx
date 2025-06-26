@@ -65,8 +65,8 @@ export default function LoginPage() {
             />
           </LogoContainer>
 
-          <Title>Welcome to Developer Portal! <span>👋🏻</span></Title>
-          <Subtitle>Please sign-in to your account and start the adventure</Subtitle>
+          <Title theme={lightTheme}>Welcome to Developer Portal! <span>👋🏻</span></Title>
+          <Subtitle theme={lightTheme}>Please sign-in to your account and start the adventure</Subtitle>
 
           <Form onSubmit={handleSubmit}>
             <FormControl fullWidth margin="normal">
@@ -79,6 +79,7 @@ export default function LoginPage() {
                 autoFocus
                 value={formData.email}
                 onChange={handleChange}
+                theme={lightTheme}
               />
             </FormControl>
 
@@ -92,6 +93,7 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 value={formData.password}
                 onChange={handleChange}
+                theme={lightTheme}
               />
             </FormControl>
 
@@ -114,7 +116,7 @@ export default function LoginPage() {
             </SubmitButton>
 
             <SignupContainer>
-              <SignupText>New on our platform?</SignupText>
+              <SignupText theme={lightTheme}>New on our platform?</SignupText>
               <MuiLink
                 component={Link}
                 href="/auth/register"

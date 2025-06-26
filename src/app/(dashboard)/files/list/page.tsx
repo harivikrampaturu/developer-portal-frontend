@@ -60,7 +60,14 @@ export default function UploadsPage() {
             </Snackbar>
       {uploads.length > 0 ? (
         <FileList 
-          files={uploads}
+          files={uploads.map((u: any) => ({
+            _id: u._id,
+            originalName: u.originalName,
+            fileSize: u.fileSize,
+            status: u.status,
+            updatedAt: u.updatedAt,
+            path: u.path,
+          }))}
           total={total}
           loading={loading}
         />
