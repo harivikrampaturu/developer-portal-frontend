@@ -23,7 +23,9 @@ const navigationItems = [
 ];
 
 // Styled Components
-const NavWrapper = styled('nav')<{ isOpen: boolean }>(({ theme, isOpen }) => ({
+const NavWrapper = styled('nav', {
+    shouldForwardProp: (prop) => prop !== 'isOpen'
+})<{ isOpen: boolean }>(({ theme, isOpen }) => ({
     width: isOpen ? 240 : 72,
     height: '100vh',
     display: 'flex',
@@ -38,7 +40,9 @@ const NavWrapper = styled('nav')<{ isOpen: boolean }>(({ theme, isOpen }) => ({
     zIndex: 1100
 }));
 
-const LogoContainer = styled('div')<{ isOpen: boolean }>(({ isOpen }) => ({
+const LogoContainer = styled('div', {
+    shouldForwardProp: (prop) => prop !== 'isOpen'
+})<{ isOpen: boolean }>(({ isOpen }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -51,7 +55,9 @@ const StyledList = styled(List)({
     flex: 1
 });
 
-const StyledListItem = styled(ListItem)<{ isOpen: boolean; active: boolean }>(({ theme, active }) => ({
+const StyledListItem = styled(ListItem, {
+    shouldForwardProp: (prop) => prop !== 'isOpen' && prop !== 'active'
+})<{ isOpen: boolean; active: boolean }>(({ theme, active }) => ({
     paddingLeft: 16,
     paddingRight: 16,
     color: active ? theme.palette.primary.main : theme.palette.text.primary,
