@@ -15,65 +15,67 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import GoogleIcon from '@mui/icons-material/Google';
 import { lightTheme } from '@/theme/theme';
 import {
-  Container,
-  StyledPaper,
-  Title,
-  Subtitle,
-  Form,
-  StyledTextField,
-  SubmitButton,
-  SignupContainer,
-  SignupText,
-  SignupLink,
-  LogoContainer,
-  RightContainer,
-  OrDivider,
-  SocialLoginContainer
+    Container,
+    StyledPaper,
+    Title,
+    Subtitle,
+    Form,
+    StyledTextField,
+    SubmitButton,
+    SignupContainer,
+    SignupText,
+    SignupLink,
+    LogoContainer,
+    RightContainer,
+    OrDivider,
+    SocialLoginContainer
 } from '../login/styled';
 
 export default function RegisterPage() {
-  const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
-  const { error } = useSelector((state: RootState) => state.auth);
+    const dispatch = useDispatch<AppDispatch>();
+    const router = useRouter();
+    const { error } = useSelector((state: RootState) => state.auth);
 
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      // Handle password mismatch
-      return;
-    }
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (formData.password !== formData.confirmPassword) {
+            // Handle password mismatch
+            return;
+        }
 
-    const result = await dispatch(register({
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      password: formData.password
-    }));
+        const result = await dispatch(
+            register({
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                password: formData.password
+            })
+        );
 
-    if (register.fulfilled.match(result)) {
-      router.push('/dashboard');
-    }
-  };
+        if (register.fulfilled.match(result)) {
+            router.push('/dashboard');
+        }
+    };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
 
-  return (
-    <Container theme={lightTheme}>
-    {/*   <LeftContainer>
+    return (
+        <Container theme={lightTheme}>
+            {/*   <LeftContainer>
         <Image
           src="/register-character.png"
           alt="Character Illustration"
@@ -84,129 +86,123 @@ export default function RegisterPage() {
         />
       </LeftContainer> */}
 
-      <RightContainer>
-        <StyledPaper>
-          <LogoContainer>
-            <Image
-              src="/meeami-logo-black.jpg"
-              alt="Materialize Logo"
-              width={140}
-              height={30}
-              priority
-            />
-          </LogoContainer>
-          
-          <Title theme={lightTheme}>Adventure starts here 🚀</Title>
-          <Subtitle theme={lightTheme}>Make your app management easy and fun!</Subtitle>
+            <RightContainer>
+                <StyledPaper>
+                    <LogoContainer>
+                        <Image src="/meeami-logo-black.jpg" alt="Materialize Logo" width={140} height={30} priority />
+                    </LogoContainer>
 
-          <Form onSubmit={handleSubmit}>
-            <FormControl fullWidth margin="normal">
-              <StyledTextField
-                fullWidth
-                id="firstName"
-                name="firstName"
-                label="First Name"
-                autoComplete="given-name"
-                autoFocus
-                value={formData.firstName}
-                onChange={handleChange}
-                theme={lightTheme}
-              />
-            </FormControl>
+                    <Title theme={lightTheme}>Adventure starts here 🚀</Title>
+                    <Subtitle theme={lightTheme}>Make your app management easy and fun!</Subtitle>
 
-            <FormControl fullWidth margin="normal">
-              <StyledTextField
-                fullWidth
-                id="lastName"
-                name="lastName"
-                label="Last Name"
-                autoComplete="family-name"
-                value={formData.lastName}
-                onChange={handleChange}
-                theme={lightTheme}
-              />
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <StyledTextField
-                fullWidth
-                id="email"
-                name="email"
-                label="Email"
-                autoComplete="email"
-                value={formData.email}
-                onChange={handleChange}
-                theme={lightTheme}
-              />
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <StyledTextField
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                value={formData.password}
-                onChange={handleChange}
-                theme={lightTheme}
-              />
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <StyledTextField
-                fullWidth
-                name="confirmPassword"
-                type="password"
-                id="confirmPassword"
-                label="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                theme={lightTheme}
-              />
-            </FormControl>
+                    <Form onSubmit={handleSubmit}>
+                        <FormControl fullWidth margin="normal">
+                            <StyledTextField
+                                fullWidth
+                                id="firstName"
+                                name="firstName"
+                                label="First Name"
+                                autoComplete="given-name"
+                                autoFocus
+                                value={formData.firstName}
+                                onChange={handleChange}
+                                theme={lightTheme}
+                            />
+                        </FormControl>
 
-            <SubmitButton
-              type="submit"
-              fullWidth
-              variant="contained"
-            >
-              Sign up
-            </SubmitButton>
+                        <FormControl fullWidth margin="normal">
+                            <StyledTextField
+                                fullWidth
+                                id="lastName"
+                                name="lastName"
+                                label="Last Name"
+                                autoComplete="family-name"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                theme={lightTheme}
+                            />
+                        </FormControl>
+                        <FormControl fullWidth margin="normal">
+                            <StyledTextField
+                                fullWidth
+                                id="email"
+                                name="email"
+                                label="Email"
+                                autoComplete="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                theme={lightTheme}
+                            />
+                        </FormControl>
+                        <FormControl fullWidth margin="normal">
+                            <StyledTextField
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="new-password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                theme={lightTheme}
+                            />
+                        </FormControl>
+                        <FormControl fullWidth margin="normal">
+                            <StyledTextField
+                                fullWidth
+                                name="confirmPassword"
+                                type="password"
+                                id="confirmPassword"
+                                label="Confirm Password"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                theme={lightTheme}
+                            />
+                        </FormControl>
 
-            <SignupContainer>
-              <SignupText theme={lightTheme}>Already have an account?</SignupText>
-              <MuiLink
-                component={Link}
-                href="/auth/login"
-                variant="body2"
-                sx={{ textDecoration: 'none' }}
-              >
-                <SignupLink>Sign in instead</SignupLink>
-              </MuiLink>
-            </SignupContainer>
+                        <SubmitButton type="submit" fullWidth variant="contained">
+                            Sign up
+                        </SubmitButton>
 
-            <OrDivider>
-              <span>or</span>
-            </OrDivider>
+                        <SignupContainer>
+                            <SignupText theme={lightTheme}>Already have an account?</SignupText>
+                            <MuiLink
+                                component={Link}
+                                href="/auth/login"
+                                variant="body2"
+                                sx={{ textDecoration: 'none' }}
+                            >
+                                <SignupLink>Sign in instead</SignupLink>
+                            </MuiLink>
+                        </SignupContainer>
 
-            <SocialLoginContainer>
-              <IconButton sx={{ color: '#497CE2' }}><FacebookIcon /></IconButton>
-              <IconButton sx={{ color: '#1DA1F2' }}><TwitterIcon /></IconButton>
-              <IconButton sx={{ color: '#333333' }}><GitHubIcon /></IconButton>
-              <IconButton sx={{ color: '#DB4437' }}><GoogleIcon /></IconButton>
-            </SocialLoginContainer>
-          </Form>
-        </StyledPaper>
-      </RightContainer>
+                        <OrDivider>
+                            <span>or</span>
+                        </OrDivider>
 
-      <Snackbar 
-        open={!!error} 
-        autoHideDuration={6000} 
-        onClose={() => dispatch(clearError())}
-      >
-        <Alert severity="error" onClose={() => dispatch(clearError())}>
-          {error}
-        </Alert>
-      </Snackbar>
-    </Container>
-  );
-} 
+                        <SocialLoginContainer>
+                            <IconButton sx={{ color: '#497CE2' }}>
+                                <FacebookIcon />
+                            </IconButton>
+                            <IconButton sx={{ color: '#1DA1F2' }}>
+                                <TwitterIcon />
+                            </IconButton>
+                            <IconButton sx={{ color: '#333333' }}>
+                                <GitHubIcon />
+                            </IconButton>
+                            <IconButton sx={{ color: '#DB4437' }}>
+                                <GoogleIcon />
+                            </IconButton>
+                        </SocialLoginContainer>
+                    </Form>
+                </StyledPaper>
+            </RightContainer>
+
+            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => dispatch(clearError())}>
+                <Alert severity="error" onClose={() => dispatch(clearError())}>
+                    {error}
+                </Alert>
+            </Snackbar>
+        </Container>
+    );
+}

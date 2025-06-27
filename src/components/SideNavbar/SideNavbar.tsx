@@ -6,7 +6,7 @@ import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheck
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { IconButton, useTheme, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { IconButton, useTheme, List, ListItem, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store';
@@ -23,63 +23,97 @@ const navigationItems = [
 ];
 
 // Styled Components
-const NavWrapper = styled('nav', {
-    shouldForwardProp: (prop) => prop !== 'isOpen'
-})<{ isOpen: boolean }>(({ theme, isOpen }) => ({
-    width: isOpen ? 240 : 72,
+const NavWrapper = styled('nav')<{ isOpen: boolean }>(({ theme, isOpen }) => ({
+    width: isOpen ? 280 : 80,
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     backgroundColor: theme.palette.background.paper,
-    borderRight: `1px solid ${theme.custom.border}`,
+    borderRight: `1px solid ${theme.palette.divider}`,
     transition: 'width 0.3s ease',
     position: 'fixed',
     left: 0,
     top: 0,
-    zIndex: 1100
+    zIndex: 1100,
+    backdropFilter: 'blur(10px)',
+    boxShadow: theme.palette.mode === 'dark' ? '0 4px 20px rgba(0, 0, 0, 0.3)' : '0 4px 20px rgba(0, 0, 0, 0.1)'
 }));
 
-const LogoContainer = styled('div', {
-    shouldForwardProp: (prop) => prop !== 'isOpen'
-})<{ isOpen: boolean }>(({ isOpen }) => ({
+const LogoContainer = styled('div')<{ isOpen: boolean }>(({ theme, isOpen }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 72,
-    paddingLeft: isOpen ? 0 : 0
+    height: 80,
+    padding: theme.spacing(2),
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    backgroundColor: theme.palette.background.paper,
+    transition: 'all 0.3s ease'
 }));
 
-const StyledList = styled(List)({
-    paddingTop: 0,
+const StyledList = styled(List)(({ theme }) => ({
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
     flex: 1
-});
+}));
 
-const StyledListItem = styled(ListItem, {
-    shouldForwardProp: (prop) => prop !== 'isOpen' && prop !== 'active'
-})<{ isOpen: boolean; active: boolean }>(({ theme, active }) => ({
-    paddingLeft: 16,
-    paddingRight: 16,
+const StyledListItem = styled(ListItem)<{ isOpen: boolean; active: boolean }>(({ theme, active }) => ({
+    width: '100%',
+    boxSizing: 'border-box',
+    padding: theme.spacing(1.5, 2),
+    margin: theme.spacing(0.5, 0),
+    borderRadius: 12,
     color: active ? theme.palette.primary.main : theme.palette.text.primary,
-    backgroundColor: active ? theme.palette.action.selected : 'transparent',
+    backgroundColor: active
+        ? theme.palette.mode === 'dark'
+            ? 'rgba(215, 25, 32, 0.15)'
+            : 'rgba(215, 25, 32, 0.08)'
+        : 'transparent',
+    borderLeft: active ? `3px solid ${theme.palette.primary.main}` : '3px solid transparent',
     '&:hover': {
-        backgroundColor: '#fdeaea'
+        backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(215, 25, 32, 0.04)',
+        transform: 'translateX(4px)',
+        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+    },
+    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+}));
+
+const StyledListItemIcon = styled(ListItemIcon)<{ active: boolean }>(({ theme, active }) => ({
+    minWidth: 48,
+    color: active ? theme.palette.primary.main : theme.palette.text.primary,
+    '& .MuiSvgIcon-root': {
+        fontSize: '1.5rem'
     }
 }));
 
-const StyledListItemIcon = styled(ListItemIcon)({
-    minWidth: 40
-});
-
-const StyledListItemText = styled(ListItemText)({
-    fontWeight: 500
-});
+const StyledListItemText = styled(ListItemText)<{ active: boolean }>(({ theme, active }) => ({
+    fontWeight: 500,
+    color: active ? theme.palette.primary.main : theme.palette.text.primary,
+    '& .MuiListItemText-primary': {
+        fontWeight: active ? 600 : 500,
+        fontSize: '1rem',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+    }
+}));
 
 const FooterContainer = styled('div')(({ theme }) => ({
     padding: theme.spacing(2),
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderTop: `1px solid ${theme.palette.divider}`,
+    backgroundColor: theme.palette.background.paper
+}));
+
+const Divider = styled('hr')(({ theme }) => ({
+    border: 'none',
+    height: 1,
+    background: `linear-gradient(90deg, transparent, ${
+        theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)'
+    }, transparent)`,
+    margin: theme.spacing(1, 0)
 }));
 
 // Main Component
@@ -98,36 +132,62 @@ const SideNavbar: React.FC<SideNavbarProps> = ({ isOpen }) => {
         <NavWrapper isOpen={isOpen}>
             <div>
                 <LogoContainer isOpen={isOpen}>
-                    <Image src="/meeami-logo-black.jpg" alt="Meeami Logo" width={180} height={60} priority />
+                    <Image
+                        src="/meeami-logo-black.jpg"
+                        alt="Meeami Logo"
+                        width={isOpen ? 200 : 50}
+                        height={isOpen ? 60 : 50}
+                        priority
+                        style={{
+                            transition: 'all 0.3s ease',
+                            borderRadius: isOpen ? 0 : '8px'
+                        }}
+                    />
                 </LogoContainer>
 
                 <StyledList>
-                    {navigationItems.map((item) => (
-                        <Link key={item.text} href={item.href || ''} style={{ textDecoration: 'none' }}>
-                            <StyledListItem isOpen={isOpen} active={pathname === item.href}>
-                                <StyledListItemIcon>{item.icon}</StyledListItemIcon>
-                                {isOpen && <StyledListItemText primary={item.text} />}
-                            </StyledListItem>
-                        </Link>
-                    ))}
+                    {navigationItems.map((item) => {
+                        const isActive = pathname === item.href;
+                        return (
+                            <Tooltip key={item.text} title={!isOpen ? item.text : ''} placement="right" arrow>
+                                <Link href={item.href || ''} style={{ textDecoration: 'none' }}>
+                                    <StyledListItem isOpen={isOpen} active={isActive}>
+                                        <StyledListItemIcon active={isActive}>{item.icon}</StyledListItemIcon>
+                                        {isOpen && <StyledListItemText primary={item.text} active={isActive} />}
+                                    </StyledListItem>
+                                </Link>
+                            </Tooltip>
+                        );
+                    })}
                 </StyledList>
             </div>
+
             <div>
-                <hr style={{ border: '1px solid #e5e7eb', width: '100%', marginBottom: '1px' }} />
-                <FooterContainer sx={{ mr: 2, mb: 2, px: 0, py: '8px' }}>
+                <Divider />
+                <FooterContainer>
                     <Profile />
-                    <IconButton
-                        onClick={() => dispatch(toggleThemeMode())}
-                        sx={{
-                            color: isDarkMode ? '#fff' : theme.palette.text.primary,
-                            '&:hover': {
+                    <Tooltip title="Toggle theme" placement="top" arrow>
+                        <IconButton
+                            onClick={() => dispatch(toggleThemeMode())}
+                            sx={{
+                                color: isDarkMode ? '#fff' : theme.palette.text.primary,
                                 backgroundColor:
-                                    theme.palette.mode === 'light' ? theme.palette.action.hover : theme.custom.hoverDark
-                            }
-                        }}
-                    >
-                        {isDarkMode ? <Brightness7 /> : <Brightness4 />}
-                    </IconButton>
+                                    theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.04)',
+                                '&:hover': {
+                                    backgroundColor:
+                                        theme.palette.mode === 'dark'
+                                            ? 'rgba(255, 255, 255, 0.12)'
+                                            : 'rgba(0, 0, 0, 0.08)',
+                                    transform: 'scale(1.05)'
+                                },
+                                transition: 'all 0.2s ease',
+                                width: 40,
+                                height: 40
+                            }}
+                        >
+                            {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+                        </IconButton>
+                    </Tooltip>
                 </FooterContainer>
             </div>
         </NavWrapper>

@@ -30,8 +30,6 @@ export const Profile = () => {
         handleMenuClose();
     };
 
-    console.log('user ==>', user);
-
     if (!user) return null;
 
     return (
@@ -53,7 +51,7 @@ export const Profile = () => {
                     sx={{
                         fontWeight: 600,
                         ml: 1,
-                        maxWidth: 100,
+                        maxWidth: 140,
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap'
