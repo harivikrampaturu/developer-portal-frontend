@@ -5,32 +5,32 @@ import type { AppDispatch } from '@/store';
 import { ROUTES } from '@/constants/routes';
 
 interface LoginCredentials {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 }
 
 export const useAuth = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
-  const loading = useSelector(selectAuthLoading);
-  const error = useSelector(selectAuthError);
+    const dispatch = useDispatch<AppDispatch>();
+    const router = useRouter();
+    const loading = useSelector(selectAuthLoading);
+    const error = useSelector(selectAuthError);
 
-  const handleLogin = async (credentials: LoginCredentials) => {
-    const result = await dispatch(login(credentials));
-    
-    if (login.fulfilled.match(result)) {
-      router.push(ROUTES.DASHBOARD);
-    }
-  };
+    const handleLogin = async (credentials: LoginCredentials) => {
+        const result = await dispatch(login(credentials));
+        debugger;
+        if (login.fulfilled.match(result)) {
+            router.push(ROUTES.DASHBOARD);
+        }
+    };
 
-  const handleClearError = () => {
-    dispatch(clearError());
-  };
+    const handleClearError = () => {
+        dispatch(clearError());
+    };
 
-  return {
-    loading,
-    error,
-    handleLogin,
-    handleClearError,
-  };
-}; 
+    return {
+        loading,
+        error,
+        handleLogin,
+        handleClearError
+    };
+};
