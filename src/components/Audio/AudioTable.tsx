@@ -60,9 +60,12 @@ const AudioTable: React.FC = () => {
     };
 
     const processFilePath = (filePath: string) => {
+        if (!filePath || typeof filePath !== 'string' || !filePath.includes('/')) {
+            return { date: new Date(0), filename: '' };
+        }
         const parts = filePath.split('/');
-        const rawDate = parts[2]; // e.g., "2025-05-07_12-34-56"
-        const formattedDate = rawDate.replace('_', 'T').replace(/-/g, ':').replace(':', '-'); // to ISO format
+        const rawDate = parts[2] || '';
+        const formattedDate = rawDate.replace('_', 'T').replace(/-/g, ':').replace(':', '-');
         const displayDate = new Date(formattedDate);
         const filename = parts[parts.length - 1];
         return { date: displayDate, filename };
@@ -76,7 +79,15 @@ const AudioTable: React.FC = () => {
         return <div>Error: {error}</div>;
     }
 
-    const sortedAudioFiles = [...audioFiles].sort((a, b) => {
+    // Map string array to object array if needed
+    const validAudioFiles = audioFiles
+      .map((a, idx) =>
+        typeof a === 'string'
+          ? { id: a, name: a }
+          : a
+      )
+      .filter(a => typeof a.name === 'string' && a.name.includes('/'));
+    const sortedAudioFiles = [...validAudioFiles].sort((a, b) => {
         const dateA = processFilePath(a.name).date.getTime();
         const dateB = processFilePath(b.name).date.getTime();
         return dateB - dateA;
@@ -131,3 +142,14 @@ const AudioTable: React.FC = () => {
 };
 
 export default AudioTable;
+
+// Example: in your fetchAudioFiles thunk or reducer
+const filesFromBackend = [
+  "accent-data/Developer-Portal/2025-06-25 05-18/ip_202506250518.wav",
+  // ...
+];
+
+const audioFiles = filesFromBackend.map((file, idx) => ({
+  id: file, // or use idx or a hash if you want
+  name: file,
+}));
