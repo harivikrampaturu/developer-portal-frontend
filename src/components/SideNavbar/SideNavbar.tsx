@@ -3,10 +3,11 @@ import HomeIcon from '@mui/icons-material/HomeOutlined';
 import SettingsIcon from '@mui/icons-material/SettingsOutlined';
 import FileIcon from '@mui/icons-material/UploadOutlined';
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
+import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { IconButton, useTheme, List, ListItem, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
+import { IconButton, useTheme, List, ListItem, ListItemIcon, ListItemText, Tooltip, Box } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store';
@@ -23,7 +24,7 @@ const navigationItems = [
 ];
 
 // Styled Components
-const NavWrapper = styled('nav')<{ isOpen: boolean }>(({ theme, isOpen }) => ({
+const NavWrapper = styled('nav')<{ isOpen: boolean; isMobile: boolean }>(({ theme, isOpen, isMobile }) => ({
     width: isOpen ? 280 : 80,
     height: '100vh',
     display: 'flex',
@@ -37,7 +38,28 @@ const NavWrapper = styled('nav')<{ isOpen: boolean }>(({ theme, isOpen }) => ({
     top: 0,
     zIndex: 1100,
     backdropFilter: 'blur(10px)',
-    boxShadow: theme.palette.mode === 'dark' ? '0 4px 20px rgba(0, 0, 0, 0.3)' : '0 4px 20px rgba(0, 0, 0, 0.1)'
+    boxShadow: theme.palette.mode === 'dark' ? '0 4px 20px rgba(0, 0, 0, 0.3)' : '0 4px 20px rgba(0, 0, 0, 0.1)',
+    [theme.breakpoints.down('md')]: {
+        width: isOpen ? 280 : 0,
+        transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
+        transition: 'transform 0.3s ease, width 0.3s ease',
+        display: isMobile && !isOpen ? 'none' : 'flex'
+    }
+}));
+
+const MobileMenuButton = styled(IconButton)(({ theme }) => ({
+    position: 'fixed',
+    top: 16,
+    left: 16,
+    zIndex: 1200,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.palette.mode === 'dark' ? '0 2px 8px rgba(0, 0, 0, 0.3)' : '0 2px 8px rgba(0, 0, 0, 0.1)',
+    '&:hover': {
+        backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.04)'
+    },
+    [theme.breakpoints.up('md')]: {
+        display: 'none'
+    }
 }));
 
 const LogoContainer = styled('div')<{ isOpen: boolean }>(({ theme, isOpen }) => ({
@@ -120,77 +142,86 @@ const Divider = styled('hr')(({ theme }) => ({
 interface SideNavbarProps {
     isOpen: boolean;
     onToggle: () => void;
+    isMobile: boolean;
 }
 
-const SideNavbar: React.FC<SideNavbarProps> = ({ isOpen }) => {
+const SideNavbar: React.FC<SideNavbarProps> = ({ isOpen, onToggle, isMobile }) => {
     const pathname = usePathname();
     const dispatch = useDispatch<AppDispatch>();
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === 'dark';
 
     return (
-        <NavWrapper isOpen={isOpen}>
-            <div>
-                <LogoContainer isOpen={isOpen}>
-                    <Image
-                        src="/meeami-logo-black.jpg"
-                        alt="Meeami Logo"
-                        width={isOpen ? 200 : 50}
-                        height={isOpen ? 60 : 50}
-                        priority
-                        style={{
-                            transition: 'all 0.3s ease',
-                            borderRadius: isOpen ? 0 : '8px'
-                        }}
-                    />
-                </LogoContainer>
+        <>
+            <MobileMenuButton onClick={onToggle} size="large">
+                <MenuIcon />
+            </MobileMenuButton>
 
-                <StyledList>
-                    {navigationItems.map((item) => {
-                        const isActive = pathname === item.href;
-                        return (
-                            <Tooltip key={item.text} title={!isOpen ? item.text : ''} placement="right" arrow>
-                                <Link href={item.href || ''} style={{ textDecoration: 'none' }}>
-                                    <StyledListItem isOpen={isOpen} active={isActive}>
-                                        <StyledListItemIcon active={isActive}>{item.icon}</StyledListItemIcon>
-                                        {isOpen && <StyledListItemText primary={item.text} active={isActive} />}
-                                    </StyledListItem>
-                                </Link>
-                            </Tooltip>
-                        );
-                    })}
-                </StyledList>
-            </div>
+            <NavWrapper isOpen={isOpen} isMobile={isMobile}>
+                <div>
+                    <LogoContainer isOpen={isOpen}>
+                        <Image
+                            src="/meeami-logo-black.jpg"
+                            alt="Meeami Logo"
+                            width={isOpen ? 200 : 50}
+                            height={isOpen ? 60 : 50}
+                            priority
+                            style={{
+                                transition: 'all 0.3s ease',
+                                borderRadius: isOpen ? 0 : '8px'
+                            }}
+                        />
+                    </LogoContainer>
 
-            <div>
-                <Divider />
-                <FooterContainer>
-                    <Profile />
-                    <Tooltip title="Toggle theme" placement="top" arrow>
-                        <IconButton
-                            onClick={() => dispatch(toggleThemeMode())}
-                            sx={{
-                                color: isDarkMode ? '#fff' : theme.palette.text.primary,
-                                backgroundColor:
-                                    theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.04)',
-                                '&:hover': {
+                    <StyledList>
+                        {navigationItems.map((item) => {
+                            const isActive = pathname === item.href;
+                            return (
+                                <Tooltip key={item.text} title={!isOpen ? item.text : ''} placement="right" arrow>
+                                    <Link href={item.href || ''} style={{ textDecoration: 'none' }}>
+                                        <StyledListItem isOpen={isOpen} active={isActive}>
+                                            <StyledListItemIcon active={isActive}>{item.icon}</StyledListItemIcon>
+                                            {isOpen && <StyledListItemText primary={item.text} active={isActive} />}
+                                        </StyledListItem>
+                                    </Link>
+                                </Tooltip>
+                            );
+                        })}
+                    </StyledList>
+                </div>
+
+                <div>
+                    <Divider />
+                    <FooterContainer>
+                        <Profile />
+                        <Tooltip title="Toggle theme" placement="top" arrow>
+                            <IconButton
+                                onClick={() => dispatch(toggleThemeMode())}
+                                sx={{
+                                    color: isDarkMode ? '#fff' : theme.palette.text.primary,
                                     backgroundColor:
                                         theme.palette.mode === 'dark'
-                                            ? 'rgba(255, 255, 255, 0.12)'
-                                            : 'rgba(0, 0, 0, 0.08)',
-                                    transform: 'scale(1.05)'
-                                },
-                                transition: 'all 0.2s ease',
-                                width: 40,
-                                height: 40
-                            }}
-                        >
-                            {isDarkMode ? <Brightness7 /> : <Brightness4 />}
-                        </IconButton>
-                    </Tooltip>
-                </FooterContainer>
-            </div>
-        </NavWrapper>
+                                            ? 'rgba(255, 255, 255, 0.08)'
+                                            : 'rgba(0, 0, 0, 0.04)',
+                                    '&:hover': {
+                                        backgroundColor:
+                                            theme.palette.mode === 'dark'
+                                                ? 'rgba(255, 255, 255, 0.12)'
+                                                : 'rgba(0, 0, 0, 0.08)',
+                                        transform: 'scale(1.05)'
+                                    },
+                                    transition: 'all 0.2s ease',
+                                    width: 40,
+                                    height: 40
+                                }}
+                            >
+                                {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+                            </IconButton>
+                        </Tooltip>
+                    </FooterContainer>
+                </div>
+            </NavWrapper>
+        </>
     );
 };
 

@@ -22,7 +22,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Providers>
                     <ThemeRegistry>
                         <LayoutAuthWrapper>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+                            <Box
+                                component="main"
+                                sx={{
+                                    flexGrow: 1,
+                                    px: { xs: 1, sm: 2, md: 3 }, // Responsive padding
+                                    py: { xs: 2, sm: 3 }, // Responsive vertical padding
+                                    width: '100%',
+                                    minHeight: '100vh',
+                                    boxSizing: 'border-box'
+                                }}
+                            >
                                 {/* <AppBar 
                   position="static" 
                   elevation={0}
@@ -63,16 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <Profile />
                   </Toolbar>
                 </AppBar> */}
-                                <Box
-                                    component="main"
-                                    sx={{
-                                        flexGrow: 1,
-                                        px: { xs: 2, sm: 2 }, // Consistent padding with toolbar
-                                        py: 3
-                                    }}
-                                >
-                                    {children}
-                                </Box>
+                                {children}
                             </Box>
                         </LayoutAuthWrapper>
                     </ThemeRegistry>

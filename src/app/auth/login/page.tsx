@@ -56,7 +56,7 @@ export default function LoginPage() {
             <RightContainer>
                 <StyledPaper>
                     <LogoContainer>
-                        <Image src="/meeami-logo-black.jpg" alt="Materialize Logo" width={140} height={30} priority />
+                        <Image src="/logo.svg" alt="Materialize Logo" width={140} height={30} priority />
                     </LogoContainer>
 
                     <Title theme={lightTheme}>
