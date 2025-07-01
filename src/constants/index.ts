@@ -44,7 +44,7 @@ export const FILE_UPLOAD_CONFIG = {
         mvns: 3,
         bvs: 0,
         dgc: 0,
-        default_fullbandwidth: 0
+        default_fullbandwidth: 1
     },
     cleanVoice: {
         mvns: 1,
