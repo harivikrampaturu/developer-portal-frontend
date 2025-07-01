@@ -80,13 +80,9 @@ const AudioTable: React.FC = () => {
     }
 
     // Map string array to object array if needed
-    const validAudioFiles = audioFiles
-      .map((a, idx) =>
-        typeof a === 'string'
-          ? { id: a, name: a }
-          : a
-      )
-      .filter(a => typeof a.name === 'string' && a.name.includes('/'));
+    const validAudioFiles = (audioFiles || [])
+        .map((a, idx) => (typeof a === 'string' ? { id: a, name: a } : a))
+        .filter((a) => typeof a.name === 'string' && a.name.includes('/'));
     const sortedAudioFiles = [...validAudioFiles].sort((a, b) => {
         const dateA = processFilePath(a.name).date.getTime();
         const dateB = processFilePath(b.name).date.getTime();
@@ -145,11 +141,11 @@ export default AudioTable;
 
 // Example: in your fetchAudioFiles thunk or reducer
 const filesFromBackend = [
-  "accent-data/Developer-Portal/2025-06-25 05-18/ip_202506250518.wav",
-  // ...
+    'accent-data/Developer-Portal/2025-06-25 05-18/ip_202506250518.wav'
+    // ...
 ];
 
 const audioFiles = filesFromBackend.map((file, idx) => ({
-  id: file, // or use idx or a hash if you want
-  name: file,
+    id: file, // or use idx or a hash if you want
+    name: file
 }));

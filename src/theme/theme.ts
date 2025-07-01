@@ -160,66 +160,66 @@ const components: Components<Theme> = {
 };
 
 const typography = {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif',
     fontSize: 14,
     h1: {
         fontSize: '2.5rem',
         fontWeight: 700,
-        fontFamily: '"Inter", "Roboto", sans-serif',
+        fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif',
         letterSpacing: '-0.02em'
     },
     h2: {
         fontSize: '2rem',
         fontWeight: 600,
-        fontFamily: '"Inter", "Roboto", sans-serif',
+        fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif',
         letterSpacing: '-0.01em'
     },
     h3: {
         fontSize: '1.75rem',
         fontWeight: 600,
-        fontFamily: '"Inter", "Roboto", sans-serif'
+        fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif'
     },
     h4: {
         fontSize: '1.5rem',
         fontWeight: 600,
-        fontFamily: '"Inter", "Roboto", sans-serif'
+        fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif'
     },
     h5: {
         fontSize: '1.25rem',
         fontWeight: 500,
-        fontFamily: '"Inter", "Roboto", sans-serif'
+        fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif'
     },
     h6: {
         fontSize: '1.125rem',
         fontWeight: 500,
-        fontFamily: '"Inter", "Roboto", sans-serif'
+        fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif'
     },
     body1: {
         fontSize: '1rem',
-        fontFamily: '"Inter", "Roboto", sans-serif',
+        fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif',
         lineHeight: 1.6
     },
     body2: {
         fontSize: '0.95rem',
-        fontFamily: '"Inter", "Roboto", sans-serif',
+        fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif',
         lineHeight: 1.5
     },
     button: {
         fontSize: '0.95rem',
         fontWeight: 600,
-        fontFamily: '"Inter", "Roboto", sans-serif',
+        fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif',
         letterSpacing: '0.01em'
     },
     subtitle1: {
         fontSize: '1rem',
         fontWeight: 500,
-        fontFamily: '"Inter", "Roboto", sans-serif',
+        fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif',
         lineHeight: 1.5
     },
     subtitle2: {
         fontSize: '0.875rem',
         fontWeight: 500,
-        fontFamily: '"Inter", "Roboto", sans-serif',
+        fontFamily: '"DM Sans", var(--font-dm-sans), system-ui, -apple-system, sans-serif',
         lineHeight: 1.4
     }
 };
