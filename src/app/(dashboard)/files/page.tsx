@@ -26,7 +26,7 @@ const voiceConfig = [
         color: '#10B981'
     },
     {
-        name: 'mvnsAggressive',
+        name: 'mvnsFullBandwidth',
         label: 'Multi-Variate Noise Suppression Full Bandwidth',
         description: 'Intensive noise reduction for challenging environments',
         icon: <Tune sx={{ fontSize: '2rem' }} />,
