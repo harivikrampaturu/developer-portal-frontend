@@ -26,8 +26,8 @@ const voiceConfig = [
         color: '#10B981'
     },
     {
-        name: 'mvnsAggressive',
-        label: 'Multi-Variate Noise Suppression Aggressive',
+        name: 'mvnsFullBandwidth',
+        label: 'Multi-Variate Noise Suppression Full Bandwidth',
         description: 'Intensive noise reduction for challenging environments',
         icon: <Tune sx={{ fontSize: '2rem' }} />,
         color: '#F59E0B'
@@ -58,7 +58,7 @@ export default function FilesPage() {
     return (
         <Box
             sx={{
-                p: { xs: 2, sm: 3, md: 4 },
+                p: { xs: 2, sm: 3, md: 2 },
                 maxWidth: '1200px',
                 mx: 'auto'
             }}
@@ -119,7 +119,7 @@ export default function FilesPage() {
                         Choose an audio processing configuration to get started with your file upload.
                     </Typography>
 
-                    <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+                    <Grid container spacing={{ xs: 2, sm: 3, md: 3 }}>
                         {voiceConfig.map((config, index) => (
                             <Grid item xs={12} sm={6} md={4} key={config.name}>
                                 <StyledCard
