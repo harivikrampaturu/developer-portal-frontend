@@ -2,12 +2,12 @@ import styled from '@emotion/styled';
 import { Paper, TextField, Button } from '@mui/material';
 import type { Theme } from '@mui/material/styles';
 
-type WithTheme = { theme: Theme };
+type WithTheme = { theme?: Theme };
 
 export const Container = styled('div')`
     min-height: 100vh;
     display: flex;
-    background: ${({ theme }: WithTheme) => theme.palette.grey[50]};
+    background: ${({ theme }: WithTheme) => theme?.palette.background.default};
 
     @media (max-width: 899px) {
         flex-direction: column;
@@ -70,7 +70,7 @@ export const StyledPaper = styled(Paper)`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: white;
+    background: ${({ theme }: WithTheme) => theme?.palette.background.paper};
     border-radius: 20px;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06);
     padding: 20px;
@@ -87,7 +87,7 @@ export const StyledPaper = styled(Paper)`
 `;
 
 export const Logo = styled('img')`
-    width: 120px;
+    width: 160px;
     height: auto;
 
     @media (max-width: 600px) {
@@ -97,9 +97,8 @@ export const Logo = styled('img')`
 
 export const Title = styled('h2')`
     font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: ${({ theme }: WithTheme) => theme.palette.text.primary};
-    font-size: 1.75rem;
+    color: ${({ theme }: WithTheme) => theme?.palette.text.primary};
+    font-size: 1.4rem;
     text-align: center;
 
     & span {
@@ -114,7 +113,7 @@ export const Title = styled('h2')`
 
 export const Subtitle = styled('p')`
     margin-bottom: 2rem;
-    color: ${({ theme }: WithTheme) => theme.palette.text.secondary};
+    color: ${({ theme }: WithTheme) => theme?.palette.text.secondary};
     text-align: center;
     font-size: 1rem;
 
@@ -131,14 +130,14 @@ export const Form = styled('form')`
 export const StyledTextField = styled(TextField)`
     & .MuiOutlinedInput-root {
         border-radius: 8px;
-        background-color: #fff;
+        background-color: ${({ theme }: WithTheme) => theme?.palette.background.paper};
 
         &:hover fieldset {
-            border-color: ${({ theme }: WithTheme) => theme.palette.primary.main};
+            border-color: ${({ theme }: WithTheme) => theme?.palette.primary.main};
         }
 
         & fieldset {
-            border-color: ${({ theme }: WithTheme) => theme.palette.grey[200]};
+            border-color: ${({ theme }: WithTheme) => theme?.palette.grey[200]};
         }
     }
 
@@ -152,14 +151,15 @@ export const StyledTextField = styled(TextField)`
 export const SubmitButton = styled(Button)`
     padding: 0.75rem;
     margin: 2rem 0 1.5rem;
-    background-color: #6366f1;
+    background-color: ${({ theme }: WithTheme) => theme?.palette.primary.main};
     border-radius: 8px;
     font-weight: 600;
     text-transform: none;
     min-height: 48px;
+    color: ${({ theme }: WithTheme) => theme?.palette.getContrastText(theme?.palette.primary.main || '#d71920')};
 
     &:hover {
-        background-color: #4f46e5;
+        background-color: ${({ theme }: WithTheme) => theme?.palette.primary.dark};
     }
 
     @media (max-width: 600px) {
@@ -184,7 +184,7 @@ export const SignupContainer = styled('div')`
 
 export const SignupText = styled('span')`
     font-size: 0.875rem;
-    color: ${({ theme }: WithTheme) => theme.palette.text.secondary};
+    color: ${({ theme }: WithTheme) => theme?.palette.text.secondary};
 
     @media (max-width: 600px) {
         font-size: 0.8rem;
@@ -195,13 +195,12 @@ export const SignupLink = styled('a')`
     font-size: 0.875rem;
     text-decoration: none;
     font-weight: 500;
-    color: #6366f1;
-    min-height: 44px;
+    color: ${({ theme }: WithTheme) => theme?.palette.primary.main};
     display: flex;
     align-items: center;
 
     &:hover {
-        color: #4f46e5;
+        color: ${({ theme }: WithTheme) => theme?.palette.primary.dark};
     }
 
     @media (max-width: 600px) {
@@ -232,12 +231,12 @@ export const OrDivider = styled('div')`
     &::after {
         content: '';
         flex: 1;
-        border-bottom: 1px solid #e0e0e0;
+        border-bottom: 1px solid ${({ theme }: WithTheme) => theme?.palette.divider};
     }
 
     & span {
         padding: 0 1rem;
-        color: #757575;
+        color: ${({ theme }: WithTheme) => theme?.palette.text.secondary};
         font-size: 0.875rem;
     }
 
@@ -259,8 +258,8 @@ export const SocialLoginContainer = styled('div')`
 `;
 
 export const ErrorNotification = styled('div')`
-    background-color: ${({ theme }: WithTheme) => theme.palette.error.main};
-    color: white;
+    background-color: ${({ theme }: WithTheme) => theme?.palette.error.main};
+    color: ${({ theme }: WithTheme) => theme?.palette.getContrastText(theme?.palette.error.main || '#d71920')};
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;

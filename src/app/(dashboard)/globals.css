@@ -34,7 +34,7 @@ html {
 body {
     color: var(--foreground);
     background: var(--background);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'DM Sans', var(--font-dm-sans), system-ui, -apple-system, sans-serif;
     line-height: 1.5;
     /* Prevent horizontal scroll on mobile */
     overflow-x: hidden;
@@ -45,6 +45,11 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+html,
+body {
+    font-family: 'DM Sans', var(--font-dm-sans), system-ui, -apple-system, sans-serif;
 }
 
 /* Allow text selection where needed */

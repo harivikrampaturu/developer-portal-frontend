@@ -2,30 +2,40 @@
 
 import { Box, Typography, useTheme, Grid, Card, CardContent, Paper } from '@mui/material';
 import { HomeOutlined, UploadOutlined, SettingsOutlined, RadioButtonCheckedOutlined } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/constants/routes';
 
 export default function HomeClient() {
     const theme = useTheme();
+    const router = useRouter();
 
     const dashboardItems = [
         {
             title: 'Files',
             description: 'Manage your uploaded files',
             icon: <UploadOutlined sx={{ fontSize: '2rem' }} />,
-            color: '#6366F1'
+            color: '#6366F1',
+            route: ROUTES.FILES
         },
         {
             title: 'API Keys',
             description: 'View and manage your API keys',
             icon: <SettingsOutlined sx={{ fontSize: '2rem' }} />,
-            color: '#10B981'
+            color: '#10B981',
+            route: ROUTES.API_KEYS
         },
         {
             title: 'Recordings',
             description: 'Access your audio recordings',
             icon: <RadioButtonCheckedOutlined sx={{ fontSize: '2rem' }} />,
-            color: '#F59E0B'
+            color: '#F59E0B',
+            route: ROUTES.RECORDING
         }
     ];
+
+    const handleCardClick = (route: string) => {
+        router.push(route);
+    };
 
     return (
         <Box
@@ -64,15 +74,41 @@ export default function HomeClient() {
                 {dashboardItems.map((item, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
                         <Card
+                            onClick={() => handleCardClick(item.route)}
                             sx={{
                                 height: '100%',
                                 transition: 'all 0.3s ease',
                                 cursor: 'pointer',
+                                position: 'relative',
+                                overflow: 'hidden',
                                 '&:hover': {
                                     transform: 'translateY(-4px)',
-                                    boxShadow: theme.shadows[8]
+                                    boxShadow: theme.shadows[8],
+                                    '&::before': {
+                                        opacity: 1
+                                    }
+                                },
+                                '&::before': {
+                                    content: '""',
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    height: '3px',
+                                    backgroundColor: item.color,
+                                    opacity: 0,
+                                    transition: 'opacity 0.3s ease'
                                 }
                             }}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    handleCardClick(item.route);
+                                }
+                            }}
+                            aria-label={`Navigate to ${item.title}`}
                         >
                             <CardContent
                                 sx={{

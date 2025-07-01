@@ -15,6 +15,7 @@ import Profile from '../Profile';
 import { styled } from '@mui/material/styles';
 import { ROUTES } from '@/constants/routes';
 import { toggleThemeMode } from '@/store/theme/themeSlice';
+import { Logo } from '@/components/Logo';
 
 const navigationItems = [
     { text: 'Home', icon: <HomeIcon />, href: ROUTES.DASHBOARD },
@@ -160,13 +161,11 @@ const SideNavbar: React.FC<SideNavbarProps> = ({ isOpen, onToggle, isMobile }) =
             <NavWrapper isOpen={isOpen} isMobile={isMobile}>
                 <div>
                     <LogoContainer isOpen={isOpen}>
-                        <Image
-                            src="/meeami-logo-black.jpg"
-                            alt="Meeami Logo"
+                        <Logo
                             width={isOpen ? 200 : 50}
                             height={isOpen ? 60 : 50}
-                            priority
-                            style={{
+                            variant="default"
+                            sx={{
                                 transition: 'all 0.3s ease',
                                 borderRadius: isOpen ? 0 : '8px'
                             }}

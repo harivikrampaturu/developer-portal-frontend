@@ -1,39 +1,29 @@
 'use client';
 
-import { Inter } from 'next/font/google';
 import { Box } from '@mui/material';
 import { Providers } from '@/components/Providers';
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import LayoutAuthWrapper from '@/components/LayoutAuthWrapper/LayoutAuthWrapper';
 import './globals.css';
 
-// Move Inter font initialization outside the component since it needs to be at module level
-const inter = Inter({
-    subsets: ['latin'],
-    display: 'swap',
-    variable: '--font-inter'
-});
-
 // Keep RootLayout as the main layout component
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" className={inter.variable}>
-            <body>
-                <Providers>
-                    <ThemeRegistry>
-                        <LayoutAuthWrapper>
-                            <Box
-                                component="main"
-                                sx={{
-                                    flexGrow: 1,
-                                    px: { xs: 1, sm: 2, md: 3 }, // Responsive padding
-                                    py: { xs: 2, sm: 3 }, // Responsive vertical padding
-                                    width: '100%',
-                                    minHeight: '100vh',
-                                    boxSizing: 'border-box'
-                                }}
-                            >
-                                {/* <AppBar 
+        <Providers>
+            <ThemeRegistry>
+                <LayoutAuthWrapper>
+                    <Box
+                        component="main"
+                        sx={{
+                            flexGrow: 1,
+                            px: { xs: 1, sm: 2, md: 3 }, // Responsive padding
+                            py: { xs: 2, sm: 3 }, // Responsive vertical padding
+                            width: '100%',
+                            minHeight: '100vh',
+                            boxSizing: 'border-box'
+                        }}
+                    >
+                        {/* <AppBar 
                   position="static" 
                   elevation={0}
                 
@@ -73,12 +63,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <Profile />
                   </Toolbar>
                 </AppBar> */}
-                                {children}
-                            </Box>
-                        </LayoutAuthWrapper>
-                    </ThemeRegistry>
-                </Providers>
-            </body>
-        </html>
+                        {children}
+                    </Box>
+                </LayoutAuthWrapper>
+            </ThemeRegistry>
+        </Providers>
     );
 }

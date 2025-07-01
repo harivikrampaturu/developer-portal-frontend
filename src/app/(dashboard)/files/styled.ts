@@ -1,14 +1,11 @@
 import { Box, Typography, styled } from '@mui/material';
 
 export const StyledCard = styled(Box)(({ theme }) => ({
-    background:
-        theme.palette.mode === 'light'
-            ? 'linear-gradient(145deg, #ffffff 0%, #f5f7ff 100%)'
-            : 'linear-gradient(145deg, #181A20 0%, #23272F 100%)',
-    borderRadius: theme.shape.borderRadius * 2,
+    background: theme.palette.background.paper,
+    borderRadius: theme.shape.borderRadius * 1.5,
     padding: theme.spacing(3),
     height: '100%',
-    boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+    boxShadow: theme.shadows[2],
     transition: 'all 0.3s ease',
     cursor: 'pointer',
     display: 'flex',
@@ -16,13 +13,25 @@ export const StyledCard = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     textAlign: 'center',
     border: `1px solid ${theme.palette.divider}`,
+    position: 'relative',
+    overflow: 'hidden',
     '&:hover': {
         transform: 'translateY(-4px)',
-        boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
-        background:
-            theme.palette.mode === 'light'
-                ? 'linear-gradient(145deg, #ffffff 0%, #eef2ff 100%)'
-                : 'linear-gradient(145deg, #181A20 0%, #23272F 100%)'
+        boxShadow: theme.shadows[8],
+        '&::before': {
+            opacity: 1
+        }
+    },
+    '&::before': {
+        content: '""',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '3px',
+        backgroundColor: theme.palette.primary.main,
+        opacity: 0,
+        transition: 'opacity 0.3s ease'
     }
 }));
 
@@ -34,8 +43,11 @@ export const IconWrapper = styled(Box)(({ theme }) => ({
     marginBottom: theme.spacing(2),
     boxShadow: `0 4px 14px ${theme.palette.primary.main}40`,
     transition: 'all 0.3s ease',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     '&:hover': {
-        transform: 'rotate(5deg)',
+        transform: 'scale(1.05)',
         boxShadow: `0 6px 20px ${theme.palette.primary.main}60`
     }
 }));
@@ -47,6 +59,7 @@ export const ConfigTitle = styled(Typography)(({ theme }) => ({
     lineHeight: 1.3,
     marginTop: theme.spacing(1),
     transition: 'color 0.3s ease',
+    textAlign: 'center',
     '&:hover': {
         color: theme.palette.primary.main
     }
