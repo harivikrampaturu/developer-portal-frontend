@@ -111,7 +111,7 @@ const StyledListItemIcon = styled(ListItemIcon)<{ active: boolean }>(({ theme, a
 
 const StyledListItemText = styled(ListItemText)<{ active: boolean }>(({ theme, active }) => ({
     fontWeight: 500,
-    color: active ? theme.palette.primary.main : theme.palette.text.primary,
+    color: theme.palette.text.primary,
     '& .MuiListItemText-primary': {
         fontWeight: active ? 600 : 500,
         fontSize: '1rem',

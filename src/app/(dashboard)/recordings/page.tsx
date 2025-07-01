@@ -1,17 +1,31 @@
 'use client';
 
 import React from 'react';
+import { Typography, Box } from '@mui/material';
 import AudioTable from '@/components/Audio/AudioTable';
-import { Typography } from '@mui/material';
 
 const RecordingsPage: React.FC = () => {
     return (
-        <div className="container mx-auto p-6">
-            <Typography variant="h4" fontWeight={700} mb={4} color="text.primary">
+        <Box
+            sx={{
+                p: { xs: 2, sm: 3, md: 4 },
+                maxWidth: '1200px',
+                mx: 'auto'
+            }}
+        >
+            <Typography
+                variant="h4"
+                sx={{
+                    fontWeight: 600,
+                    fontSize: { xs: '1.75rem', sm: '2.125rem', md: '3rem' },
+                    color: 'primary.main',
+                    mb: { xs: 3, sm: 4 }
+                }}
+            >
                 Recordings
             </Typography>
             <AudioTable />
-        </div>
+        </Box>
     );
 };
 

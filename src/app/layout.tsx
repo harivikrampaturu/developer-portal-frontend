@@ -22,6 +22,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
     return (
         <html lang="en" className={dmSans.variable}>
+            <head>
+                <link rel="icon" type="image/png" href="/fav.png" />
+            </head>
             <body>
                 <ThemeProvider theme={lightTheme}>
                     <CssBaseline />
