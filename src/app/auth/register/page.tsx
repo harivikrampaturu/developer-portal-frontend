@@ -57,7 +57,7 @@ export default function RegisterPage() {
         );
 
         if (register.fulfilled.match(result)) {
-            router.push('/dashboard');
+            router.push('/auth/login');
         }
     };
 

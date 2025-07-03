@@ -24,7 +24,7 @@ export function APIKeysTable({ apiKeys, page, rowsPerPage, onPageChange, onRowsP
         <DataTable
             columns={columns}
             data={paginatedData}
-            renderRow={(apiKey) => <APIKeyTableRow key={apiKey.id} apiKey={apiKey} />}
+            renderRow={(apiKey) => <APIKeyTableRow key={apiKey._id} apiKey={apiKey} />}
             page={page}
             rowsPerPage={rowsPerPage}
             totalCount={apiKeys.length}

@@ -51,13 +51,16 @@ export function DataTable<T>({
             ))}
           </TableRow>
         </TableHead>
-    <TableBody>
-      {data.map((item, index) => (
-        <React.Fragment key={(item as any).id ?? index}>
-          {renderRow(item)}
-        </React.Fragment>
-      ))}
-    </TableBody>
+        <TableBody>
+          {data.map((item, index) => {
+            console.log(item);
+            return (
+              <React.Fragment key={(item as any).id ?? index}>
+                {renderRow(item)}
+              </React.Fragment>
+            );
+          })}
+        </TableBody>
       </Table>
       <TablePagination
         rowsPerPageOptions={rowsPerPageOptions}
@@ -70,4 +73,4 @@ export function DataTable<T>({
       />
     </TableContainer>
   );
-} 
+}

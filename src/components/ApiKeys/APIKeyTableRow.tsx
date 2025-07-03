@@ -27,7 +27,9 @@ export function APIKeyTableRow({ apiKey }: APIKeyTableRowProps) {
 
     const handleDelete = () => {
         if (window.confirm('Are you sure you want to delete this API key?')) {
-            dispatch(deleteAPIKey(apiKey.id));
+            if (apiKey._id) {
+                dispatch(deleteAPIKey(apiKey._id));
+            }
         }
     };
 

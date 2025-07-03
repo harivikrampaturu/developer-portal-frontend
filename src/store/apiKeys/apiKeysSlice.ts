@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchAPIKeys, createAPIKey, deleteAPIKey } from './apiKeysThunks';
 
 export interface APIKey {
-    id: string;
+    _id: string;
     name: string;
     key: string;
     isPublic: boolean;
@@ -59,7 +59,7 @@ const apiKeysSlice = createSlice({
             })
             .addCase(deleteAPIKey.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.items = state.items.filter((key) => key.id !== action.payload);
+                state.items = state.items.filter((key) => key._id !== action.payload);
             })
             .addCase(deleteAPIKey.rejected, (state, action) => {
                 state.isLoading = false;

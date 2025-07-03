@@ -24,7 +24,7 @@ export function APIKeyCard({ apiKey }: APIKeyCardProps) {
 
     const handleDelete = () => {
         if (window.confirm('Are you sure you want to delete this API key?')) {
-            dispatch(deleteAPIKey(apiKey.id));
+            dispatch(deleteAPIKey(apiKey._id));
         }
     };
 
